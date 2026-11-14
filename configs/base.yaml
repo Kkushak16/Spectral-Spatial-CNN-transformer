@@ -1,0 +1,45 @@
+# Base config. Every run YAML inherits from this file (`inherit: base.yaml`) and overrides keys.
+name: base
+seed: 0
+num_threads: 10            # CPU-only machine (i7-13620H, 16 logical cores)
+
+dataset:
+  name: eurosat_ms
+  root: EuroSAT_MS/EuroSAT_MS
+  cache: data/processed/eurosat_ms_uint16.npy
+  band_map: configs/band_map_eurosat.yaml
+  split: splits/eurosat_grouped_s0.csv       # 70/10/20 stratified, spatial groups kept whole (D-011)
+  norm: configs/norm_eurosat_grouped_s0.yaml
+  bands: all12            # all12 | all13 | rgb | rgbn | explicit list; canonical order B01..B08,B8A,B09,B11,B12
+  train_fraction: 1.0     # low-data runs: 0.1, 0.2, 0.5
+  label_set: multiclass   # multiclass | agri_binary | agri_pasture_binary
+
+k_grid: [3, 4, 6, 8, 12]
+
+model:
+  name: small_resnet
+  k: 12
+  gate: none              # none | topk_st | hard_concrete
+  embed_dim: 128
+  heads: 4
+  depth: 2
+
+loss:
+  lambda_sparse: 0.0
+  lambda_index: 0.0
+  lambda_consistency: 0.0
+
+train:
+  epochs: 30
+  label_smoothing: 0.0
+  batch_size: 128
+  optimizer: adamw
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  scheduler: onecycle
+  early_stop_patience: 1000   # effectively off (D-020): one-cycle LR makes early val noisy; best-val checkpoint still used
+  augment: [hflip, vflip, rot90]
+
+eval:
+  metrics: [accuracy, macro_f1, per_class_recall, confusion]
+  bootstrap: 1000

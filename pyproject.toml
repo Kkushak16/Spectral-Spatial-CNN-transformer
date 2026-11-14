@@ -1,0 +1,31 @@
+[project]
+name = "agrispec"
+version = "0.1.0"
+description = "AgriSpec-XAI: physics-guided sparse band selection (PG-ASST / COPS) on EuroSAT and BigEarthNet"
+requires-python = ">=3.11"
+dependencies = [
+    "torch>=2.2",
+    "torchvision",
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "matplotlib",
+    "pyyaml",
+    "tifffile",
+    "rasterio",
+    "timm",
+    "captum",
+    "shap",
+    "fvcore",
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

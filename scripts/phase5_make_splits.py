@@ -70,6 +70,7 @@ def main():
     splits = {"random": split_random(), "grouped": split_grouped(g["group"].values),
               "geo": split_grouped(pd.factorize(geo_key)[0])}
     (P / "splits").mkdir(exist_ok=True)
+    (P / "results").mkdir(exist_ok=True)
     summary = {}
     for name, s in splits.items():
         df = g[["idx", "path", "class", "label", "group"]].copy()

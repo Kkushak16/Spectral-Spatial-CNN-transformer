@@ -1,0 +1,4 @@
+inherit: ../base.yaml
+name: B2_cnn_rgb
+dataset: {bands: rgb}
+model: {name: small_resnet}

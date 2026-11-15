@@ -1,0 +1,3 @@
+inherit: ../base.yaml
+name: B7_cnn_inputse_12band
+model: {name: small_resnet_inse}

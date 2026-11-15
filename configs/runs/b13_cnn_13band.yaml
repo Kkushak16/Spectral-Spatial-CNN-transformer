@@ -1,0 +1,4 @@
+inherit: ../base.yaml
+name: B3_cnn_13band_ref
+dataset: {bands: all13}
+model: {name: small_resnet}

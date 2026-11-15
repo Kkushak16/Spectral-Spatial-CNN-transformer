@@ -1,7 +1,7 @@
 # Base config. Every run YAML inherits from this file (`inherit: base.yaml`) and overrides keys.
 name: base
 seed: 0
-num_threads: 10            # CPU-only machine (i7-13620H, 16 logical cores)
+num_threads: 10            # CPU threads for training; set to roughly your number of physical cores
 
 dataset:
   name: eurosat_ms

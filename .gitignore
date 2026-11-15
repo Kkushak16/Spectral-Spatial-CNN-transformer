@@ -11,7 +11,7 @@ __pycache__/
 
 data/processed/
 results/
-runs/
+/runs/
 *.pt
 *.pth
 *.ckpt

@@ -96,6 +96,14 @@ python scripts/build_eurosat_cache.py
 
 This reads the GeoTIFFs in `EuroSAT_MS/EuroSAT_MS/` and writes generated files under `data/processed/`. They are ignored by Git. Split and normalization configs are already provided in this repository.
 
+The optional physics auxiliary loss (`loss.lambda_index > 0`) also needs the per-patch NDVI/NDMI targets. Build them once after the cache:
+
+```powershell
+python scripts/make_index_targets.py
+```
+
+Baselines, the smoke test and the test suite do not need this step.
+
 ## Train and test
 
 ```powershell
@@ -105,11 +113,16 @@ python scripts/smoke_test.py
 # Train the CNN-Transformer configuration
 python scripts/train.py configs/runs/b8_cnn_transformer_12band.yaml --set seed=1 train.epochs=5
 
+# Example: same model with a 4-band gate and the physics auxiliary loss (needs make_index_targets.py)
+python scripts/train.py configs/runs/b8_cnn_transformer_12band.yaml --set model.gate=topk_st model.k=4 loss.lambda_index=0.1
+
 # Run the full test suite (data-dependent tests require the cache above)
 python -m pytest -q
 ```
 
 Training results and checkpoints are written locally under `results/`; these generated artifacts are excluded from version control.
+
+`configs/base.yaml` sets `num_threads: 10` for CPU training. Change it to suit your machine, or override it per run with `--set num_threads=4`.
 
 ## Repository layout
 
@@ -118,7 +131,7 @@ assets/                 README figures
 configs/                Base, band-map, normalization, and run configurations
 EuroSAT_MS/             Raw 13-band GeoTIFF dataset
 EuroSAT_RGB/            Raw RGB dataset
-scripts/                Cache building, analysis, training, and baseline scripts
+scripts/                Cache building, index targets, analysis, training, and baseline scripts
 splits/                 Random, grouped, and geographic split definitions
 src/agrispec/data/      EuroSAT loading, augmentation, and index targets
 src/agrispec/models/    Band gate, residual CNN, CNN-Transformer, model factory
@@ -130,3 +143,26 @@ tests/                  Focused model, data, and split tests
 
 - Model outputs are experimental and should be evaluated on the intended geographic and class distribution before practical use.
 - Generated caches, logs, metrics, and checkpoints are local-only; rerun the documented steps to recreate them.
+- The repository includes about 54,000 image files (~2.8 GB), so the first clone is slow. For code only, use `git clone --filter=blob:none --sparse` followed by `git sparse-checkout set src scripts configs splits tests assets`, then download EuroSAT separately from the official source below.
+
+## Dataset credit
+
+The EuroSAT images in `EuroSAT_MS/` and `EuroSAT_RGB/` are redistributed from the official EuroSAT release (<https://github.com/phelber/eurosat>), published under the MIT License. If you use them, cite:
+
+> P. Helber, B. Bischke, A. Dengel, and D. Borth, "EuroSAT: A Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover Classification," *IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing*, vol. 12, no. 7, pp. 2217–2226, 2019.
+
+```bibtex
+@article{helber2019eurosat,
+  title   = {EuroSAT: A Novel Dataset and Deep Learning Benchmark for Land Use and Land Cover Classification},
+  author  = {Helber, Patrick and Bischke, Benjamin and Dengel, Andreas and Borth, Damian},
+  journal = {IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
+  volume  = {12},
+  number  = {7},
+  pages   = {2217--2226},
+  year    = {2019}
+}
+```
+
+## License
+
+The code in this repository is released under the MIT License (see `LICENSE`). The EuroSAT data keep their original license and attribution requirements.

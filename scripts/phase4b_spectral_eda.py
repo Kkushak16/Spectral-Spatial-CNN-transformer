@@ -24,6 +24,7 @@ from agrispec import PROJECT_ROOT
 from agrispec.data.eurosat import CANONICAL_12, EuroSATSplit
 
 P = PROJECT_ROOT
+(P / "results/figures").mkdir(parents=True, exist_ok=True)
 ds = EuroSATSplit(split_csv="splits/eurosat_grouped_s0.csv", norm_yaml="configs/norm_eurosat_grouped_s0.yaml",
                   bands="all12")
 parts = {p: ds.load(p) for p in ("train", "val", "test")}

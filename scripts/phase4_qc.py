@@ -24,6 +24,7 @@ from agrispec import PROJECT_ROOT
 
 P = PROJECT_ROOT
 FIG = P / "results/figures"
+FIG.mkdir(parents=True, exist_ok=True)
 X = np.load(P / "data/processed/eurosat_ms_uint16.npy", mmap_mode="r")
 meta = pd.read_csv(P / "data/processed/eurosat_meta.csv")
 N = len(meta)

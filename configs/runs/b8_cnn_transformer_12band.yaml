@@ -1,0 +1,3 @@
+inherit: ../base.yaml
+name: B8_cnntr_12band
+model: {name: cnn_transformer, embed_dim: 128, heads: 4, depth: 2, token_stage: 2}

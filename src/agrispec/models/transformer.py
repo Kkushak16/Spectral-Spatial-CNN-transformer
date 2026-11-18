@@ -16,12 +16,13 @@ from agrispec.models.cnn import SmallResNet
 class CNNTransformer(nn.Module):
     def __init__(self, in_ch: int = 12, num_classes: int = 10, widths=(32, 64, 128, 256), blocks=(1, 1, 1, 1),
                  token_stage: int = 2, embed_dim: int = 128, heads: int = 4, depth: int = 2, mlp_ratio: float = 2.0,
-                 dropout: float = 0.2, attn_dropout: float = 0.0, fusion: str = "gated", in_se: bool = False):
+                 dropout: float = 0.2, attn_dropout: float = 0.0, fusion: str = "gated", in_se: bool = False,
+                 img_size: int = 64):
         super().__init__()
         self.cnn = SmallResNet(in_ch, num_classes, widths, blocks, dropout=dropout, in_se=in_se)
         self.token_stage = token_stage
         tok_ch = widths[token_stage]
-        grid = 64 // (2 * 2 ** token_stage)        # stem stride 2, stage i>0 stride 2
+        grid = img_size // (2 * 2 ** token_stage)  # stem stride 2, stage i>0 stride 2
         self.grid = grid
         self.proj = nn.Conv2d(tok_ch, embed_dim, 1)
         self.pos = nn.Parameter(torch.zeros(1, grid * grid, embed_dim))

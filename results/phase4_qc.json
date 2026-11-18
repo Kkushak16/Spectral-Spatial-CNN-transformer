@@ -1,0 +1,95 @@
+{
+  "class_counts": {
+    "AnnualCrop": 3000,
+    "Forest": 3000,
+    "HerbaceousVegetation": 3000,
+    "Highway": 2500,
+    "Industrial": 2500,
+    "Pasture": 2000,
+    "PermanentCrop": 2500,
+    "Residential": 3000,
+    "River": 2500,
+    "SeaLake": 3000
+  },
+  "agri_binary_positive": 5500,
+  "agri_binary_positive_frac": 0.2037,
+  "agri_plus_pasture_positive": 7500,
+  "agri_plus_pasture_frac": 0.2778,
+  "shapes": {
+    "13x64x64": 27000
+  },
+  "dtypes": {
+    "uint16": 27000
+  },
+  "global_min": 0,
+  "global_max": 28003,
+  "patches_with_any_zero": 7,
+  "patches_zero_frac_gt_1pct": 0,
+  "patches_with_constant_band": 3,
+  "constant_band_count_histogram": {
+    "1": 3
+  },
+  "constant_band_hits_by_file_index": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    0,
+    0,
+    0,
+    0
+  ],
+  "patches_with_max_ge_16000": 171,
+  "patches_max_eq_65535": 0,
+  "exact_duplicate_patches": 0,
+  "exact_duplicate_groups": 0,
+  "exact_duplicate_cross_class_groups": 0,
+  "crs_counts": {
+    "EPSG:32631": 6318,
+    "EPSG:32632": 5620,
+    "EPSG:32630": 4975,
+    "EPSG:32633": 4391,
+    "EPSG:32634": 2284,
+    "EPSG:32635": 1905,
+    "EPSG:32629": 988,
+    "EPSG:32636": 424,
+    "EPSG:32627": 50,
+    "EPSG:32628": 45
+  },
+  "pairs_overlapping_footprint": 527,
+  "pairs_adjacent_within_1km": 20619,
+  "overlap_pairs_cross_class": 111,
+  "overlap_distance_quantiles_m": {
+    "0.0": 7.2,
+    "0.25": 383.2,
+    "0.5": 500.8,
+    "0.75": 581.9,
+    "1.0": 638.8
+  },
+  "leakage_groups": 14816,
+  "leakage_groups_size_gt1": 3742,
+  "patches_in_groups_gt1": 15926,
+  "largest_group": 145,
+  "geo_cells_0p5deg": 950,
+  "lat_range": [
+    27.967,
+    65.238
+  ],
+  "lon_range": [
+    -20.994,
+    33.529
+  ],
+  "near_duplicate_pairs_cos_gt_0.995": 417193,
+  "near_duplicate_pairs_not_already_grouped": 393002,
+  "near_duplicate_pairs_cross_class": 454,
+  "near_duplicate_pairs_by_class": {
+    "SeaLake": 413951,
+    "Forest": 2773,
+    "AnnualCrop": 15
+  }
+}

@@ -10,8 +10,46 @@ __pycache__/
 !.env.example
 
 data/processed/
-results/
+results/*
+!results/results.csv
+!results/phase3_class_mean_spectra_raw.csv
+!results/phase4_qc.json
+!results/phase4b_spectral.json
+!results/phase5_splits.json
+!results/figures/
+!results/runs/
 /runs/
 *.pt
 *.pth
 *.ckpt
+
+# Run outputs that stay local
+*.log
+*.npz
+
+# Large datasets and archives
+BigEarthNet-S2/
+*.tar.zst
+*.crdownload
+metadata.parquet
+
+# Papers, personal documents and working notes
+*.pdf
+*.docx
+literature/
+Spectral Spatial CNN Master file.md
+notebooks/
+
+# Account-specific Kaggle settings (create with: kaggle kernels init)
+kaggle_jobs/*/kernel-metadata.json
+
+# Assets saved alongside downloaded web pages
+bifold/
+DIMA/
+RSiM/
+sentinel_2/
+widgets/
+download_tools/
+bootstrap.bundle.min/
+jquery.min/
+jquery.easing.min/

@@ -1,0 +1,13 @@
+{
+  "split_hash": "af2ec667efa8",
+  "norm_hash": "bc417eccc8e8",
+  "band_map_hash": "75bc14ca3963",
+  "bands": [
+    "B04",
+    "B03",
+    "B02"
+  ],
+  "n_train": 18900,
+  "n_val": 2700,
+  "config_hash": "87e3f7efe5"
+}

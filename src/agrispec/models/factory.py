@@ -22,7 +22,7 @@ def build_model(mcfg: dict, in_ch: int, num_classes: int) -> nn.Module:
     elif name == "cnn_transformer":                  # B8 / PG-ASST encoder
         enc = CNNTransformer(in_ch, num_classes, embed_dim=mcfg.get("embed_dim", 128), heads=mcfg.get("heads", 4),
                              depth=mcfg.get("depth", 2), token_stage=mcfg.get("token_stage", 2),
-                             fusion=mcfg.get("fusion", "gated"), **common)
+                             fusion=mcfg.get("fusion", "gated"), img_size=mcfg.get("img_size", 64), **common)
     else:
         raise ValueError(name)
     gate_mode = mcfg.get("gate", "none")

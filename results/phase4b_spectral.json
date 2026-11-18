@@ -1,0 +1,170 @@
+{
+  "fisher_all_classes": {
+    "B01": 0.636,
+    "B02": 0.829,
+    "B03": 0.831,
+    "B04": 1.038,
+    "B05": 1.274,
+    "B06": 2.756,
+    "B07": 2.622,
+    "B08": 2.717,
+    "B8A": 2.94,
+    "B09": 1.009,
+    "B11": 2.52,
+    "B12": 1.888
+  },
+  "fisher_crop_trio": {
+    "B01": 0.066,
+    "B02": 0.255,
+    "B03": 0.396,
+    "B04": 0.634,
+    "B05": 0.335,
+    "B06": 0.126,
+    "B07": 0.197,
+    "B08": 0.229,
+    "B8A": 0.229,
+    "B09": 0.19,
+    "B11": 0.325,
+    "B12": 0.557
+  },
+  "index_means_by_class_train": {
+    "AnnualCrop": {
+      "ndvi_mean": 0.381,
+      "ndvi_std": 0.169,
+      "ndmi_mean": 0.081,
+      "ndmi_std": 0.158
+    },
+    "Forest": {
+      "ndvi_mean": 0.711,
+      "ndvi_std": 0.044,
+      "ndmi_mean": 0.331,
+      "ndmi_std": 0.06
+    },
+    "HerbaceousVegetation": {
+      "ndvi_mean": 0.4,
+      "ndvi_std": 0.071,
+      "ndmi_mean": 0.024,
+      "ndmi_std": 0.064
+    },
+    "Highway": {
+      "ndvi_mean": 0.442,
+      "ndvi_std": 0.177,
+      "ndmi_mean": 0.121,
+      "ndmi_std": 0.139
+    },
+    "Industrial": {
+      "ndvi_mean": 0.224,
+      "ndvi_std": 0.191,
+      "ndmi_mean": 0.009,
+      "ndmi_std": 0.132
+    },
+    "Pasture": {
+      "ndvi_mean": 0.653,
+      "ndvi_std": 0.105,
+      "ndmi_mean": 0.254,
+      "ndmi_std": 0.105
+    },
+    "PermanentCrop": {
+      "ndvi_mean": 0.369,
+      "ndvi_std": 0.112,
+      "ndmi_mean": 0.017,
+      "ndmi_std": 0.089
+    },
+    "Residential": {
+      "ndvi_mean": 0.339,
+      "ndvi_std": 0.149,
+      "ndmi_mean": 0.046,
+      "ndmi_std": 0.111
+    },
+    "River": {
+      "ndvi_mean": 0.33,
+      "ndvi_std": 0.31,
+      "ndmi_mean": 0.234,
+      "ndmi_std": 0.171
+    },
+    "SeaLake": {
+      "ndvi_mean": -0.263,
+      "ndvi_std": 0.061,
+      "ndmi_mean": 0.647,
+      "ndmi_std": 0.061
+    }
+  },
+  "B0_rf_12band_meanstd": {
+    "seed0": {
+      "val": {
+        "acc": 0.8707,
+        "macro_f1": 0.8652
+      },
+      "test": {
+        "acc": 0.8826,
+        "macro_f1": 0.8784
+      }
+    },
+    "seed1": {
+      "val": {
+        "acc": 0.8707,
+        "macro_f1": 0.8655
+      },
+      "test": {
+        "acc": 0.8798,
+        "macro_f1": 0.8758
+      }
+    },
+    "seed2": {
+      "val": {
+        "acc": 0.8722,
+        "macro_f1": 0.8668
+      },
+      "test": {
+        "acc": 0.8843,
+        "macro_f1": 0.8803
+      }
+    }
+  },
+  "B0_rf_rgb_meanstd": {
+    "seed0": {
+      "val": {
+        "acc": 0.7574,
+        "macro_f1": 0.749
+      },
+      "test": {
+        "acc": 0.7476,
+        "macro_f1": 0.7374
+      }
+    },
+    "seed1": {
+      "val": {
+        "acc": 0.7541,
+        "macro_f1": 0.7462
+      },
+      "test": {
+        "acc": 0.7465,
+        "macro_f1": 0.7364
+      }
+    },
+    "seed2": {
+      "val": {
+        "acc": 0.7567,
+        "macro_f1": 0.7487
+      },
+      "test": {
+        "acc": 0.7467,
+        "macro_f1": 0.7368
+      }
+    }
+  },
+  "single_band_rf_val_acc": {
+    "B01": 0.4033,
+    "B02": 0.4393,
+    "B03": 0.44,
+    "B04": 0.4426,
+    "B05": 0.4533,
+    "B06": 0.3989,
+    "B07": 0.4104,
+    "B08": 0.4211,
+    "B8A": 0.417,
+    "B09": 0.3637,
+    "B11": 0.4581,
+    "B12": 0.4793
+  }
+}

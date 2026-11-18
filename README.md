@@ -13,6 +13,7 @@ An experimental PyTorch project for classifying Sentinel-2 satellite patches fro
 - Optional static sparse gates for selecting a fixed set of Sentinel-2 bands.
 - Training and evaluation utilities, model configs, and precomputed split definitions.
 - The EuroSAT RGB and multispectral image files.
+- BigEarthNet v2 packing and Kaggle GPU training code, with summary results.
 - Tests for band selection, model export, augmentation, band mapping, and split integrity.
 
 Research PDFs, literature files, personal documents, working master notes, local caches, training checkpoints, and run logs are intentionally not included.
@@ -139,10 +140,29 @@ src/agrispec/train/     Training and evaluation loop
 tests/                  Focused model, data, and split tests
 ```
 
+## BigEarthNet v2 training
+
+BigEarthNet v2 (reBEN) is not stored here. `scripts/pack_bigearthnet.py` reads the official `BigEarthNet-S2.tar.zst` and `metadata.parquet` and writes compressed `.npz` shards for upload as a private Kaggle dataset. `kaggle_jobs/` holds the multi-label GPU training script. Add a `kernel-metadata.json` for your own account (`kaggle kernels init`), with the shard dataset and a dataset containing `metadata.parquet` and `src/agrispec/models/{cnn,gate,transformer,factory}.py` as sources.
+
+```powershell
+python scripts/pack_bigearthnet.py --metadata metadata.parquet --out D:en_shards
+kaggle datasets create -p D:en_shards
+kaggle kernels push -p kaggle_jobs/ben_b8 --accelerator NvidiaTeslaT4
+kaggle kernels push -p kaggle_jobs/ben_s5_gate_k6 --accelerator NvidiaTeslaT4
+```
+
+12-band CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ± std of 3 seeds):
+
+| Macro mAP | Micro mAP | Macro F1 | Micro F1 |
+|---|---|---|---|
+| 0.685 ± 0.012 | 0.846 ± 0.007 | 0.619 ± 0.014 | 0.746 ± 0.009 |
+
+Per-seed and per-class scores are in `results/runs/ben_b8_summary_3seeds.csv`.
+
 ## Notes
 
 - Model outputs are experimental and should be evaluated on the intended geographic and class distribution before practical use.
-- Generated caches, logs, metrics, and checkpoints are local-only; rerun the documented steps to recreate them.
+- Generated caches, logs, predictions, and checkpoints are local-only. Summary metrics and run configs are kept under `results/`.
 - The repository includes about 54,000 image files (~2.8 GB), so the first clone is slow. For code only, use `git clone --filter=blob:none --sparse` followed by `git sparse-checkout set src scripts configs splits tests assets`, then download EuroSAT separately from the official source below.
 
 ## Dataset credit

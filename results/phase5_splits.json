@@ -1,0 +1,71 @@
+{
+  "random": {
+    "file": "eurosat_random_s0.csv",
+    "hash": "2d1691cfbb34",
+    "counts": {
+      "train": 18900,
+      "test": 5400,
+      "val": 2700
+    },
+    "class_frac_test": {
+      "AnnualCrop": 0.111,
+      "Forest": 0.111,
+      "HerbaceousVegetation": 0.111,
+      "Residential": 0.111,
+      "SeaLake": 0.111,
+      "Highway": 0.093,
+      "Industrial": 0.093,
+      "PermanentCrop": 0.093,
+      "River": 0.093,
+      "Pasture": 0.074
+    },
+    "leakage_groups_spanning_splits": 2271,
+    "geo_blocks_spanning_splits": 382
+  },
+  "grouped": {
+    "file": "eurosat_grouped_s0.csv",
+    "hash": "af2ec667efa8",
+    "counts": {
+      "train": 18900,
+      "test": 5400,
+      "val": 2700
+    },
+    "class_frac_test": {
+      "AnnualCrop": 0.111,
+      "Forest": 0.111,
+      "HerbaceousVegetation": 0.111,
+      "Residential": 0.111,
+      "SeaLake": 0.111,
+      "Highway": 0.093,
+      "Industrial": 0.093,
+      "PermanentCrop": 0.093,
+      "River": 0.093,
+      "Pasture": 0.074
+    },
+    "leakage_groups_spanning_splits": 0,
+    "geo_blocks_spanning_splits": 371
+  },
+  "geo": {
+    "file": "eurosat_geo_s0.csv",
+    "hash": "de4e12e7f059",
+    "counts": {
+      "train": 18567,
+      "test": 5704,
+      "val": 2729
+    },
+    "class_frac_test": {
+      "AnnualCrop": 0.158,
+      "HerbaceousVegetation": 0.126,
+      "Forest": 0.105,
+      "Residential": 0.105,
+      "SeaLake": 0.105,
+      "Highway": 0.088,
+      "Industrial": 0.088,
+      "River": 0.087,
+      "PermanentCrop": 0.075,
+      "Pasture": 0.063
+    },
+    "leakage_groups_spanning_splits": 0,
+    "geo_blocks_spanning_splits": 0
+  }
+}

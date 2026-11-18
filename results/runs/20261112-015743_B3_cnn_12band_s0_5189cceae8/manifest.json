@@ -1,0 +1,22 @@
+{
+  "split_hash": "af2ec667efa8",
+  "norm_hash": "bc417eccc8e8",
+  "band_map_hash": "75bc14ca3963",
+  "bands": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B8A",
+    "B09",
+    "B11",
+    "B12"
+  ],
+  "n_train": 18900,
+  "n_val": 2700,
+  "config_hash": "5189cceae8"
+}

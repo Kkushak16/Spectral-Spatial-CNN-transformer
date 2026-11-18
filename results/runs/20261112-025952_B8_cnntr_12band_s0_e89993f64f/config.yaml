@@ -1,0 +1,51 @@
+name: B8_cnntr_12band
+seed: 0
+num_threads: 10
+dataset:
+  name: eurosat_ms
+  root: EuroSAT_MS/EuroSAT_MS
+  cache: data/processed/eurosat_ms_uint16.npy
+  band_map: configs/band_map_eurosat.yaml
+  split: splits/eurosat_grouped_s0.csv
+  norm: configs/norm_eurosat_grouped_s0.yaml
+  bands: all12
+  train_fraction: 1.0
+  label_set: multiclass
+k_grid:
+- 3
+- 4
+- 6
+- 8
+- 12
+model:
+  name: cnn_transformer
+  k: 12
+  gate: none
+  embed_dim: 128
+  heads: 4
+  depth: 2
+  token_stage: 2
+loss:
+  lambda_sparse: 0.0
+  lambda_index: 0.0
+  lambda_consistency: 0.0
+train:
+  epochs: 30
+  label_smoothing: 0.0
+  batch_size: 128
+  optimizer: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: onecycle
+  early_stop_patience: 8
+  augment:
+  - hflip
+  - vflip
+  - rot90
+eval:
+  metrics:
+  - accuracy
+  - macro_f1
+  - per_class_recall
+  - confusion
+  bootstrap: 1000

@@ -41,6 +41,7 @@ SEEDS = [1, 2]  # trained one after the other, each saved to <out>/seed_<n>
 K = 12  # bands kept by the gate; 12 = no gate (baseline B8)
 GATE = "topk_st"  # straight-through top-k
 FREEZE_AT = 0.7  # fraction of epochs after which the selected bands are frozen
+INPUT_BANDS = None  # fixed input bands, e.g. ["B04", "B03", "B02"]; None = all 12
 
 PRESETS = {
     "smoke": {"epochs": 2, "train_shards": 4, "eval_shards": 2, "stat_shards": 2},
@@ -234,6 +235,7 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--seeds", type=int, nargs="+", default=SEEDS)
     ap.add_argument("--k", type=int, default=K)
+    ap.add_argument("--bands", nargs="+", default=INPUT_BANDS or BANDS, choices=BANDS)
     ap.add_argument("--max-hours", type=float, default=5.5, help="per seed: stop training early to leave time for testing")
     args, _ = ap.parse_known_args()
     base = Path(args.out)
@@ -292,9 +294,14 @@ def run(args: argparse.Namespace) -> None:
         if epochs < 2:
             raise SystemExit("the band gate needs at least 2 epochs")
         mcfg.update(gate=GATE, k=args.k)
-    model = build_model(mcfg, 12, len(classes)).to(device)
+    if gated and len(args.bands) != 12:
+        raise SystemExit("the band gate selects from all 12 bands")
+    model = build_model(mcfg, len(args.bands), len(classes)).to(device)
+    if len(args.bands) != 12:  # the model only ever sees the chosen bands
+        keep = torch.tensor([BANDS.index(b) for b in args.bands], device=device)
+        model.register_forward_pre_hook(lambda _m, inputs: (inputs[0][:, keep],))
     n_params = sum(p.numel() for p in model.parameters())
-    cfg = {**vars(args), "epochs": epochs, "model": mcfg, "classes": classes, "bands": BANDS, "params": n_params,
+    cfg = {**vars(args), "epochs": epochs, "model": mcfg, "classes": classes, "bands": args.bands, "params": n_params,
            "n_train": tr.n, "n_val": va.n, "n_test": te.n, "gpu": gpu}
     (out / "config.json").write_text(json.dumps(cfg, indent=2))
     print(f"model params={n_params:,}", flush=True)
@@ -318,7 +325,7 @@ def run(args: argparse.Namespace) -> None:
         csv.writer(fh).writerow(fields)
     best, best_ep = -1.0, -1
     def current_bands():
-        return [BANDS[i] for i in model.gate.selected_indices().tolist()] if gated else BANDS
+        return [BANDS[i] for i in model.gate.selected_indices().tolist()] if gated else args.bands
 
     for ep in range(epochs):
         if gated and ep == freeze_ep:
@@ -386,7 +393,7 @@ def run(args: argparse.Namespace) -> None:
                  "params_k_channel": sum(p.numel() for p in final_model.parameters()),
                  "gate_probabilities": dict(zip(BANDS, np.round(model.gate.probabilities().cpu().numpy(), 4).tolist()))}
         print(f"selected bands: {current_bands()}  k-channel logit gap={gap:.2e}", flush=True)
-    res = {"name": f"S5_gate_k{args.k}_ben" if gated else "B8_cnntr_12band_ben", **extra, "mode": args.mode, "seed": args.seed, "best_epoch": best_ep,
+    res = {"name": f"S5_gate_k{args.k}_ben" if gated else f"B8_cnntr_{'rgb' if len(args.bands) == 3 else '12band'}_ben", **extra, "mode": args.mode, "seed": args.seed, "best_epoch": best_ep,
            "epochs_planned": epochs, "epochs_run": ep + 1, "params": n_params, "gpu": gpu}
     for name, dl, split in (("val", va_dl, va), ("test", te_dl, te)):
         y, p = predict(final_model, dl, split.n, len(classes), device, mean_t, std_t, amp)

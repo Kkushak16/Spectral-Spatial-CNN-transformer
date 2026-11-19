@@ -247,7 +247,7 @@ def page_one():
              P("<b>MobileNetV3</b> and <b>EfficientNet-B0</b> as lighter encoders, <b>ResNet-50</b> as the RGB reference, "
                "<b>Integrated Gradients</b> and <b>SHAP</b> for explanations, and <b>mRMR/PCA</b> band subsets for comparison. None of these results exist yet."),
              P("Future plans", "h2"),
-             *bullets(["Finish k = 6, then run k = 3, 4 and 8 on BigEarthNet.",
+             *bullets(["Rerun the two k = 6 seeds that were cut short, then run k = 3, 4 and 8 on BigEarthNet.",
                        "Compare the gate against RGB, RGB+NIR, random, mRMR and PCA subsets.",
                        "Add the physics head, then the consistency loss, one at a time.",
                        "Complete EuroSAT seeds, low-data and geographic tests, then write the paper."]),
@@ -343,13 +343,22 @@ def page_gate():
         pairs = [(0, 1), (0, 2), (1, 2)]
         jac = st.mean(len(sets[a] & sets[b]) / len(sets[a] | sets[b]) for a, b in pairs)
         common = sorted(set.intersection(*sets))
-        band_rows = [["Seed", "Selected bands", "Test macro mAP", "Test micro mAP"]]
-        for r in GATE:
-            band_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"{r['test']['macro_mAP']:.3f}", f"{r['test']['micro_mAP']:.3f}"])
-        story += [P(f"The learned 6-band model reads half of the input bands. Its test macro mAP changed by <b>{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(base['macro_mAP']):+.3f}</b> compared with all 12 bands.", "body"),
-                  table(rows, [32, 36, 42, 36, 34]), Spacer(1, 7), table(band_rows, [20, 90, 35, 35]),
+        band_rows = [["Seed", "Selected bands", "Epochs run", "Test macro mAP", "RGB, same seed", "12 bands, same seed"]]
+        for i, r in enumerate(GATE):
+            band_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"{r['epochs_run']} of {r['epochs_planned']}", f"<b>{r['test']['macro_mAP']:.3f}</b>",
+                              f"{BEN_RGB[i]['test']['macro_mAP']:.3f}", f"{BEN[i]['test']['macro_mAP']:.3f}"])
+        short = [r for r in GATE if r["epochs_run"] < r["epochs_planned"]]
+        story += [P(f"The learned 6-band model reads half of the input bands. Averaged over three seeds, its test macro mAP was "
+                    f"<b>{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(base['macro_mAP']):+.3f}</b> against all 12 bands and "
+                    f"{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(metric(BEN_RGB, 'test', 'macro_mAP')):+.3f} against RGB.", "body")]
+        if short:
+            story += [P(f"<b>Caution: {len(short)} of 3 seeds did not finish training.</b> Seeds {', '.join(str(r['seed']) for r in short)} hit the "
+                        "Kaggle time budget after epoch 15 of 20, so they had one epoch of fine-tuning with frozen bands instead of six, and their "
+                        "learning rate never decayed. Only seed 0 is a complete run. These seeds must be rerun before k = 6 can be judged.", "body")]
+        story += [table(rows, [32, 36, 42, 36, 34]), Spacer(1, 7), table(band_rows, [12, 62, 24, 28, 27, 27]),
                   P(f"Band stability across seeds: average Jaccard overlap {jac:.2f}. Bands chosen by all three seeds: {', '.join(common) if common else 'none'}. "
-                    "Final scores come from the exported 6-channel model.", "note")]
+                    "The gate's band scores stayed close together (about 0.3 to 0.6), so the choice of the last bands was weak. "
+                    "Final scores come from the exported 6-channel model, which matched the gated model exactly.", "note")]
     else:
         story += [P("<b>Training is in progress, so no k = 6 result is reported yet.</b> This page will be regenerated with measured scores when all three seeds finish.", "body"),
                   table([["Item", "Setup"],
@@ -363,7 +372,7 @@ def page_gate():
                      ["12 bands, compact CNN", "Done, seed 0", "Not run"],
                      ["RGB baseline, CNN-Transformer", "Not run", "Done, 3 seeds"],
                      ["12 bands, CNN-Transformer (B8)", "Done, seed 0", "Done, 3 seeds"],
-                     ["Learned gate, k = 6", "Not run", "Done, 3 seeds" if GATE_DONE else "Running, 3 seeds"],
+                     ["Learned gate, k = 6", "Not run", ("Done, 3 seeds (2 cut short)" if any(r["epochs_run"] < r["epochs_planned"] for r in GATE) else "Done, 3 seeds") if GATE_DONE else "Running, 3 seeds"],
                      ["Learned gate, k = 3, 4, 8", "Not run", "Not run"],
                      ["RGB+NIR, random, mRMR and PCA subsets", "Subsets prepared, not trained", "Not run"],
                      ["ResNet-50 RGB reference", "Script ready, not run", "Not run"],

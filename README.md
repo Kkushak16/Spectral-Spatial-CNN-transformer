@@ -145,19 +145,21 @@ tests/                  Focused model, data, and split tests
 BigEarthNet v2 (reBEN) is not stored here. `scripts/pack_bigearthnet.py` reads the official `BigEarthNet-S2.tar.zst` and `metadata.parquet` and writes compressed `.npz` shards for upload as a private Kaggle dataset. `kaggle_jobs/` holds the multi-label GPU training script. Add a `kernel-metadata.json` for your own account (`kaggle kernels init`), with the shard dataset and a dataset containing `metadata.parquet` and `src/agrispec/models/{cnn,gate,transformer,factory}.py` as sources.
 
 ```powershell
-python scripts/pack_bigearthnet.py --metadata metadata.parquet --out D:en_shards
-kaggle datasets create -p D:en_shards
+python scripts/pack_bigearthnet.py --metadata metadata.parquet --out D:\ben_shards
+kaggle datasets create -p D:\ben_shards
 kaggle kernels push -p kaggle_jobs/ben_b8 --accelerator NvidiaTeslaT4
+kaggle kernels push -p kaggle_jobs/ben_rgb --accelerator NvidiaTeslaT4
 kaggle kernels push -p kaggle_jobs/ben_s5_gate_k6 --accelerator NvidiaTeslaT4
 ```
 
-12-band CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ± std of 3 seeds):
+CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ± std of 3 seeds):
 
-| Macro mAP | Micro mAP | Macro F1 | Micro F1 |
-|---|---|---|---|
-| 0.685 ± 0.012 | 0.846 ± 0.007 | 0.619 ± 0.014 | 0.746 ± 0.009 |
+| Input | Macro mAP | Micro mAP | Macro F1 | Micro F1 |
+|---|---|---|---|---|
+| RGB (B04, B03, B02) | 0.648 ± 0.008 | 0.827 ± 0.005 | 0.571 ± 0.015 | 0.722 ± 0.007 |
+| All 12 bands | 0.685 ± 0.012 | 0.846 ± 0.007 | 0.619 ± 0.014 | 0.746 ± 0.009 |
 
-Per-seed and per-class scores are in `results/runs/ben_b8_summary_3seeds.csv`.
+Per-seed and per-class scores are in `results/runs/ben_b8_summary_3seeds.csv` and `results/runs/ben_b8_rgb_summary_3seeds.csv`. The seed-by-seed comparison is in `results/runs/ben_b8_rgb_vs_12band.csv`.
 
 ## Notes
 

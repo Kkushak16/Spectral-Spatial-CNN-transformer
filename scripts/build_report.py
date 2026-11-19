@@ -109,6 +109,7 @@ rfrgb = [rf["B0_rf_rgb_meanstd"][f"seed{i}"]["test"] for i in range(3)]
 BEN = [load(RUNS / "ben_b8_cnntr_12band_s0/metrics.json"),
        load(RUNS / "ben_b8_cnntr_12band_s1_s2/seed_1/metrics.json"),
        load(RUNS / "ben_b8_cnntr_12band_s1_s2/seed_2/metrics.json")]
+BEN_RGB = [load(RUNS / f"ben_b8_rgb/seed_{s}/metrics.json") for s in range(3)]
 GATE = [load(p) for p in sorted((RUNS / "ben_s5_gate_k6").glob("seed_*/metrics.json"))]
 GATE_DONE = len(GATE) == 3
 gain = 100 * (EU["b3"]["acc"] - EU["rgb"]["acc"])
@@ -171,6 +172,34 @@ def fig_ben(path):
     plt.close(fig)
 
 
+def class_gain(c):
+    return st.mean(class_ap(BEN, "test", c)) - st.mean(class_ap(BEN_RGB, "test", c))
+
+
+def fig_ben_rgb(path):
+    cls = sorted(BEN[0]["test"]["per_class_AP"], key=class_gain)
+    fig, ax = plt.subplots(figsize=(7.1, 3.95), dpi=240)
+    for i, c in enumerate(cls):
+        a, b = st.mean(class_ap(BEN_RGB, "test", c)), st.mean(class_ap(BEN, "test", c))
+        ax.plot([a, b], [i, i], color=RULE, lw=2, zorder=1, solid_capstyle="round")
+        ax.text(1.015, i, f"{b - a:+.3f}", va="center", ha="left", fontsize=8.5, color=MUTED)
+    ax.scatter([st.mean(class_ap(BEN_RGB, "test", c)) for c in cls], range(len(cls)), s=30, color=ORANGE,
+               label="RGB (3 bands)", zorder=2, edgecolor="white", linewidth=0.8)
+    ax.scatter([st.mean(class_ap(BEN, "test", c)) for c in cls], range(len(cls)), s=30, color=BLUE,
+               label="All 12 bands", zorder=3, edgecolor="white", linewidth=0.8)
+    ax.set_yticks(range(len(cls)), [SHORT.get(c, c) for c in cls])
+    ax.set_xlim(0, 1)
+    ax.set_xlabel("Test average precision, mean of 3 seeds (number at right: 12 bands minus RGB)")
+    ax.grid(axis="x", color="#ecebe6", lw=0.6, zorder=0)
+    ax.tick_params(length=0)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.legend(loc="lower left", bbox_to_anchor=(0, 1), frameon=False, ncol=2, handletextpad=0.1, columnspacing=1)
+    fig.tight_layout(pad=0.3)
+    fig.savefig(path)
+    plt.close(fig)
+
+
 # ---- pages ---------------------------------------------------------------------------------------------
 def page_one():
     left = [P("Why we are doing this", "h2"),
@@ -188,7 +217,7 @@ def page_one():
                       "We use the 480,038 in the official split file: 237,871 train, 122,342 validation, 119,825 test."]),
             P("Results so far", "h2"),
             *bullets([f"<b>EuroSAT:</b> {pct(EU['b3']['acc'])} with 12 bands vs {pct(EU['rgb']['acc'])} with RGB, same CNN (one seed).",
-                      f"<b>BigEarthNet, 12 bands:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))}, micro mAP {ms(metric(BEN, 'test', 'micro_mAP'))} (three seeds)."]),
+                      f"<b>BigEarthNet:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))} with 12 bands vs {ms(metric(BEN_RGB, 'test', 'macro_mAP'))} with RGB, same model (three seeds)."]),
             P("How we approached it", "h2"),
             *bullets(["<b>Understand the data first:</b> checked real files, proved the EuroSAT band order and tested for spatial leakage.",
                       "<b>Write hypotheses first:</b> seven hypotheses, each with the experiment that could reject it.",
@@ -218,13 +247,13 @@ def page_one():
              P("<b>MobileNetV3</b> and <b>EfficientNet-B0</b> as lighter encoders, <b>ResNet-50</b> as the RGB reference, "
                "<b>Integrated Gradients</b> and <b>SHAP</b> for explanations, and <b>mRMR/PCA</b> band subsets for comparison. None of these results exist yet."),
              P("Future plans", "h2"),
-             *bullets(["Finish k = 6, then run k = 3, 4 and 8 and an RGB baseline on BigEarthNet.",
+             *bullets(["Finish k = 6, then run k = 3, 4 and 8 on BigEarthNet.",
                        "Compare the gate against RGB, RGB+NIR, random, mRMR and PCA subsets.",
                        "Add the physics head, then the consistency loss, one at a time.",
                        "Complete EuroSAT seeds, low-data and geographic tests, then write the paper."]),
              ]
     head = [P("AgriSpec-XAI: Learning Which Satellite Bands Matter", "title"),
-            P("Physics-guided sparse band selection in a compact CNN-Transformer &nbsp;|&nbsp; " + (AUTHOR + " &nbsp;|&nbsp; " if AUTHOR else "") + "18 Nov 2026", "sub")]
+            P("Physics-guided sparse band selection in a compact CNN-Transformer &nbsp;|&nbsp; " + (AUTHOR + " &nbsp;|&nbsp; " if AUTHOR else "") + "19 Nov 2026", "sub")]
     return head + [FrameBreak()] + left + [FrameBreak()] + right
 
 
@@ -272,18 +301,44 @@ def page_ben(fig):
             *bullets([f"<b>Large agricultural classes are strong:</b> arable land {st.mean(class_ap(BEN, 'test', 'Arable land')):.3f} and pastures {st.mean(class_ap(BEN, 'test', 'Pastures')):.3f}. "
                       f"Permanent crops are harder at {st.mean(class_ap(BEN, 'test', 'Permanent crops')):.3f}.",
                       f"<b>Rare classes pull macro mAP down.</b> Beaches has only 152 test patches and scored {st.mean(class_ap(BEN, 'test', 'Beaches, dunes, sands')):.3f}, "
-                      f"compared with {st.mean(class_ap(BEN, 'val', 'Beaches, dunes, sands')):.3f} on validation. The cause of that drop has not been established.",
-                      "<b>RGB has not been run on BigEarthNet yet,</b> so the RGB-versus-bands gain is currently measured on EuroSAT only."], "li")]
+                      f"compared with {st.mean(class_ap(BEN, 'val', 'Beaches, dunes, sands')):.3f} on validation. The cause of that drop has not been established."], "li")]
+
+
+def page_ben_rgb(fig):
+    rows = [["Test metric", "RGB (3 bands)", "All 12 bands", "Gain", "Gain by seed (0, 1, 2)"]]
+    for k, label in (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1")):
+        r, b = metric(BEN_RGB, "test", k), metric(BEN, "test", k)
+        d = [x - y for x, y in zip(b, r)]
+        rows.append([label, ms(r), f"<b>{ms(b)}</b>", f"<b>{st.mean(d):+.3f}</b>", ", ".join(f"{x:+.3f}" for x in d)])
+    cls = list(BEN[0]["test"]["per_class_AP"])
+    better = sum(class_gain(c) > 0 for c in cls)
+    gap = st.mean(metric(BEN, "test", "macro_mAP")) - st.mean(metric(BEN_RGB, "test", "macro_mAP"))
+    show = lambda runs, c: f"{st.mean(class_ap(runs, 'test', c)):.3f}"
+    wet, crop, arable, sea = "Coastal wetlands", "Permanent crops", "Arable land", "Marine waters"
+    return [P("Results 3: BigEarthNet, RGB versus all 12 bands", "h1"),
+            P(f"With the same CNN-Transformer, using all 12 bands instead of RGB raised test macro mAP by <b>{gap:.3f}</b>. "
+              "All four overall metrics improved in every one of the three seeds.", "body"),
+            table(rows, [34, 36, 36, 22, 52]),
+            P("Same model design, seeds, data split and training settings; only the input bands differ (RGB = B04, B03, B02). "
+              f"1.61 M parameters in both models. RGB took {st.mean(r['total_hours'] for r in BEN_RGB):.1f} GPU hours per seed, "
+              f"12 bands {st.mean(r['total_hours'] for r in BEN):.1f}.", "note"),
+            P("Test score for each class, RGB and 12 bands", "h3"),
+            Image(str(fig), width=180 * mm, height=180 * mm * 3.95 / 7.1),
+            P("What this tells us", "h3"),
+            *bullets([f"<b>{better} of 19 classes scored higher with 12 bands</b> on the three-seed mean. Marine waters was the exception ({show(BEN, sea)} vs {show(BEN_RGB, sea)} for RGB), a very small difference.",
+                      f"<b>Coastal wetlands gained most,</b> from {show(BEN_RGB, wet)} to {show(BEN, wet)}, though it remains a weak class.",
+                      f"<b>Crop classes gained unevenly.</b> Permanent crops rose from {show(BEN_RGB, crop)} to {show(BEN, crop)}, while arable land, already strong with RGB, rose from {show(BEN_RGB, arable)} to {show(BEN, arable)}.",
+                      "<b>This sets the target for band selection:</b> a useful small band set should score well above RGB and close to all 12 bands."], "li")]
 
 
 def page_gate():
-    story = [P("Results 3: Learned band selection (k = 6) and project status", "h1")]
+    story = [P("Results 4: Learned band selection (k = 6) and project status", "h1")]
     base = {k: metric(BEN, "test", k) for k in ("macro_mAP", "micro_mAP", "macro_f1", "micro_f1")}
     if GATE_DONE:
-        rows = [["Test metric", "12 bands (B8)", "Learned 6 bands (S5)", "Change"]]
+        rows = [["Test metric", "RGB (3 bands)", "Learned 6 bands (S5)", "12 bands (B8)", "6 bands minus 12"]]
         for k, label in (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1")):
             g = metric(GATE, "test", k)
-            rows.append([label, ms(base[k]), f"<b>{ms(g)}</b>", f"{st.mean(g) - st.mean(base[k]):+.3f}"])
+            rows.append([label, ms(metric(BEN_RGB, "test", k)), f"<b>{ms(g)}</b>", ms(base[k]), f"{st.mean(g) - st.mean(base[k]):+.3f}"])
         sets = [set(r["selected_bands"]) for r in GATE]
         pairs = [(0, 1), (0, 2), (1, 2)]
         jac = st.mean(len(sets[a] & sets[b]) / len(sets[a] | sets[b]) for a, b in pairs)
@@ -292,7 +347,7 @@ def page_gate():
         for r in GATE:
             band_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"{r['test']['macro_mAP']:.3f}", f"{r['test']['micro_mAP']:.3f}"])
         story += [P(f"The learned 6-band model reads half of the input bands. Its test macro mAP changed by <b>{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(base['macro_mAP']):+.3f}</b> compared with all 12 bands.", "body"),
-                  table(rows, [45, 45, 50, 40]), Spacer(1, 7), table(band_rows, [20, 90, 35, 35]),
+                  table(rows, [32, 36, 42, 36, 34]), Spacer(1, 7), table(band_rows, [20, 90, 35, 35]),
                   P(f"Band stability across seeds: average Jaccard overlap {jac:.2f}. Bands chosen by all three seeds: {', '.join(common) if common else 'none'}. "
                     "Final scores come from the exported 6-channel model.", "note")]
     else:
@@ -306,6 +361,7 @@ def page_gate():
               table([["Experiment", "EuroSAT", "BigEarthNet"],
                      ["RGB baseline, compact CNN", "Done, seed 0", "Not run"],
                      ["12 bands, compact CNN", "Done, seed 0", "Not run"],
+                     ["RGB baseline, CNN-Transformer", "Not run", "Done, 3 seeds"],
                      ["12 bands, CNN-Transformer (B8)", "Done, seed 0", "Done, 3 seeds"],
                      ["Learned gate, k = 6", "Not run", "Done, 3 seeds" if GATE_DONE else "Running, 3 seeds"],
                      ["Learned gate, k = 3, 4, 8", "Not run", "Not run"],
@@ -346,11 +402,12 @@ def main():
     doc.addPageTemplates([PageTemplate("cover", cover, onPage=footer),
                           PageTemplate("body", [Frame(m, y0, W - 2 * m, body_h, 0, 0, 0, 0)], onPage=footer)])
     with tempfile.TemporaryDirectory() as t:
-        f1, f2 = Path(t) / "recall.png", Path(t) / "ben.png"
+        f1, f2, f3 = Path(t) / "recall.png", Path(t) / "ben.png", Path(t) / "ben_rgb.png"
         fig_recall(f1)
         fig_ben(f2)
+        fig_ben_rgb(f3)
         doc.build(page_one() + [NextPageTemplate("body"), PageBreak()] + page_eurosat(f1) + [PageBreak()]
-                  + page_ben(f2) + [PageBreak()] + page_gate())
+                  + page_ben(f2) + [PageBreak()] + page_ben_rgb(f3) + [PageBreak()] + page_gate())
     print(OUT, "gate results included:", GATE_DONE)
 
 

@@ -110,6 +110,8 @@ BEN = [load(RUNS / "ben_b8_cnntr_12band_s0/metrics.json"),
        load(RUNS / "ben_b8_cnntr_12band_s1_s2/seed_1/metrics.json"),
        load(RUNS / "ben_b8_cnntr_12band_s1_s2/seed_2/metrics.json")]
 BEN_RGB = [load(RUNS / f"ben_b8_rgb/seed_{s}/metrics.json") for s in range(3)]
+with open(RUNS / "ben_postprocess.csv", newline="", encoding="utf-8") as fh:  # from scripts/ben_postprocess.py
+    POST = {(r["model"], r["variant"]): {k: float(v) for k, v in r.items() if k.startswith("test_")} for r in csv.DictReader(fh)}
 GATE = [load(p) for p in sorted((RUNS / "ben_s5_gate_k6").glob("seed_*/metrics.json"))]
 GATE_DONE = len(GATE) == 3
 gain = 100 * (EU["b3"]["acc"] - EU["rgb"]["acc"])
@@ -217,7 +219,8 @@ def page_one():
                       "We use the 480,038 in the official split file: 237,871 train, 122,342 validation, 119,825 test."]),
             P("Results so far", "h2"),
             *bullets([f"<b>EuroSAT:</b> {pct(EU['b3']['acc'])} with 12 bands vs {pct(EU['rgb']['acc'])} with RGB, same CNN (one seed).",
-                      f"<b>BigEarthNet:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))} with 12 bands vs {ms(metric(BEN_RGB, 'test', 'macro_mAP'))} with RGB, same model (three seeds)."]),
+                      f"<b>BigEarthNet:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))} with 12 bands vs {ms(metric(BEN_RGB, 'test', 'macro_mAP'))} with RGB, same model (three seeds).",
+                      f"<b>Seed ensemble:</b> averaging the three 12-band models raised macro mAP to {POST[('12 bands', '3-seed ensemble')]['test_macro_mAP']:.3f}."]),
             P("How we approached it", "h2"),
             *bullets(["<b>Understand the data first:</b> checked real files, proved the EuroSAT band order and tested for spatial leakage.",
                       "<b>Write hypotheses first:</b> seven hypotheses, each with the experiment that could reject it.",
@@ -239,9 +242,9 @@ def page_one():
                        "<b>Fair claims:</b> band gates already exist, so our contribution is this combined, validated package, not a \u201cfirst\u201d."]),
              P("How we can improve accuracy", "h2"),
              *bullets(["Weighted or asymmetric loss for rare classes such as beaches and coastal wetlands.",
-                       "Per-class decision thresholds tuned on validation data.",
+                       "<b>Done:</b> averaging three seeds and per-class thresholds tuned on validation data (results on page 3).",
                        "Native multi-resolution input instead of upsampling 20 m and 60 m bands.",
-                       "Pretrained weights (SatMAE, SSL4EO-S12) and ensembling the three seeds.",
+                       "Pretrained weights (SatMAE, SSL4EO-S12).",
                        "Adding Sentinel-1 radar, which is paired with BigEarthNet patches."]),
              P("Future models and tools", "h2"),
              P("<b>MobileNetV3</b> and <b>EfficientNet-B0</b> as lighter encoders, <b>ResNet-50</b> as the RGB reference, "
@@ -301,7 +304,27 @@ def page_ben(fig):
             *bullets([f"<b>Large agricultural classes are strong:</b> arable land {st.mean(class_ap(BEN, 'test', 'Arable land')):.3f} and pastures {st.mean(class_ap(BEN, 'test', 'Pastures')):.3f}. "
                       f"Permanent crops are harder at {st.mean(class_ap(BEN, 'test', 'Permanent crops')):.3f}.",
                       f"<b>Rare classes pull macro mAP down.</b> Beaches has only 152 test patches and scored {st.mean(class_ap(BEN, 'test', 'Beaches, dunes, sands')):.3f}, "
-                      f"compared with {st.mean(class_ap(BEN, 'val', 'Beaches, dunes, sands')):.3f} on validation. The cause of that drop has not been established."], "li")]
+                      f"compared with {st.mean(class_ap(BEN, 'val', 'Beaches, dunes, sands')):.3f} on validation. The cause of that drop has not been established."], "li"),
+            *page_ensemble()]
+
+
+def page_ensemble():
+    rows = [["Input bands", "Single model (mean of 3)", "3-seed ensemble", "Macro F1 at 0.5", "Macro F1, tuned", "Micro F1 at 0.5", "Micro F1, tuned"]]
+    for name, runs, key in (("RGB (3 bands)", BEN_RGB, "RGB (3 bands)"), ("All 12 bands", BEN, "12 bands")):
+        e = POST[(key, "3-seed ensemble")]
+        rows.append([name, f"{st.mean(metric(runs, 'test', 'macro_mAP')):.3f}", f"<b>{e['test_macro_mAP']:.3f}</b>", f"{e['test_macro_f1']:.3f}",
+                     f"<b>{e['test_macro_f1_tuned']:.3f}</b>", f"{e['test_micro_f1']:.3f}", f"<b>{e['test_micro_f1_tuned']:.3f}</b>"])
+    e12, er = POST[("12 bands", "3-seed ensemble")], POST[("RGB (3 bands)", "3-seed ensemble")]
+    g = POST[("Learned 6 bands (2 seeds cut short)", "3-seed ensemble")]
+    return [P("Free gains from the saved predictions: seed ensemble and tuned thresholds", "h3"),
+            table(rows, [28, 30, 24, 24, 24, 25, 25]),
+            P("Test macro mAP except where marked. Ensemble = average of the three seeds' predicted probabilities. Tuned = one decision threshold per class, "
+              "chosen to maximise F1 on the validation split and applied unchanged to test. No retraining and no test labels used.", "note"),
+            *bullets([f"<b>Averaging the three seeds added {e12['test_macro_mAP'] - st.mean(metric(BEN, 'test', 'macro_mAP')):+.3f} macro mAP</b> for 12 bands "
+                      f"and {er['test_macro_mAP'] - st.mean(metric(BEN_RGB, 'test', 'macro_mAP')):+.3f} for RGB, so 12 bands keep their lead.",
+                      f"<b>Tuned thresholds added {e12['test_macro_f1_tuned'] - e12['test_macro_f1']:+.3f} macro F1</b> on the 12-band ensemble. mAP does not depend on thresholds.",
+                      f"<b>Not a 6-band result:</b> the three k = 6 models together read 9 different bands, so their ensemble ({g['test_macro_mAP']:.3f}) is not reported as k = 6.",
+                      "<b>Cost:</b> an ensemble runs three models, so it triples inference time."], "li")]
 
 
 def page_ben_rgb(fig):

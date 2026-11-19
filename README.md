@@ -159,6 +159,7 @@ CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ±
 | RGB (B04, B03, B02) | 0.648 ± 0.008 | 0.827 ± 0.005 | 0.571 ± 0.015 | 0.722 ± 0.007 |
 | All 12 bands | 0.685 ± 0.012 | 0.846 ± 0.007 | 0.619 ± 0.014 | 0.746 ± 0.009 |
 | Learned 6 bands (gate, preliminary\*) | 0.646 ± 0.019 | 0.819 ± 0.007 | 0.566 ± 0.007 | 0.719 ± 0.007 |
+| Same 6 bands trained from scratch (seed 0 only) | 0.672 | 0.836 | 0.590 | 0.736 |
 
 \* Seeds 1 and 2 of the k = 6 run hit the Kaggle time budget after epoch 15 of 20, so they had one epoch of fine-tuning with frozen bands instead of six. Only seed 0 is complete: test macro mAP 0.668, against 0.648 for RGB and 0.693 for 12 bands with the same seed. Scores are in `results/runs/ben_s5_gate_k6_summary_3seeds.csv`.
 

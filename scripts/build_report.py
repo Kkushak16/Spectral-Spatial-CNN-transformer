@@ -113,6 +113,7 @@ BEN_RGB = [load(RUNS / f"ben_b8_rgb/seed_{s}/metrics.json") for s in range(3)]
 with open(RUNS / "ben_postprocess.csv", newline="", encoding="utf-8") as fh:  # from scripts/ben_postprocess.py
     POST = {(r["model"], r["variant"]): {k: float(v) for k, v in r.items() if k.startswith("test_")} for r in csv.DictReader(fh)}
 GATE = [load(p) for p in sorted((RUNS / "ben_s5_gate_k6").glob("seed_*/metrics.json"))]
+FIXED6 = load(RUNS / "ben_b8_fixed6/seed_0/metrics.json") if (RUNS / "ben_b8_fixed6/seed_0/metrics.json").exists() else None
 GATE_DONE = len(GATE) == 3
 gain = 100 * (EU["b3"]["acc"] - EU["rgb"]["acc"])
 
@@ -382,6 +383,18 @@ def page_gate():
                   P(f"Band stability across seeds: average Jaccard overlap {jac:.2f}. Bands chosen by all three seeds: {', '.join(common) if common else 'none'}. "
                     "The gate's band scores stayed close together (about 0.3 to 0.6), so the choice of the last bands was weak. "
                     "Final scores come from the exported 6-channel model, which matched the gated model exactly.", "note")]
+        if FIXED6:
+            f, g0 = FIXED6, GATE[0]
+            fr = [["Seed 0, test", "RGB (3 bands)", "Gate, 6 bands", "Same 6 bands, trained from scratch", "12 bands"]]
+            for k, label in (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1")):
+                fr.append([label, f"{BEN_RGB[0]['test'][k]:.3f}", f"{g0['test'][k]:.3f}", f"<b>{f['test'][k]:.3f}</b>", f"{BEN[0]['test'][k]:.3f}"])
+            gap12 = BEN[0]["test"]["macro_mAP"] - f["test"]["macro_mAP"]
+            gaprgb = f["test"]["macro_mAP"] - BEN_RGB[0]["test"]["macro_mAP"]
+            story += [P("Check: the chosen 6 bands trained from scratch", "h3"),
+                      P(f"We trained the plain model on only {', '.join(f['bands'] if 'bands' in f else g0['selected_bands'])}, the bands the gate chose in seed 0, for the full 20 epochs. "
+                        f"It recovered <b>{gaprgb / (gaprgb + gap12):.0%}</b> of the gap between RGB and 12 bands: test macro mAP {f['test']['macro_mAP']:.3f}, "
+                        f"{gaprgb:+.3f} above RGB and {gap12:.3f} below 12 bands. This is one seed, and seed-to-seed spread is about 0.01, so it needs repeating.", "body"),
+                      table(fr, [30, 30, 30, 56, 34])]
     else:
         story += [P("<b>Training is in progress, so no k = 6 result is reported yet.</b> This page will be regenerated with measured scores when all three seeds finish.", "body"),
                   table([["Item", "Setup"],
@@ -395,6 +408,7 @@ def page_gate():
                      ["12 bands, compact CNN", "Done, seed 0", "Not run"],
                      ["RGB baseline, CNN-Transformer", "Not run", "Done, 3 seeds"],
                      ["12 bands, CNN-Transformer (B8)", "Done, seed 0", "Done, 3 seeds"],
+                     ["Fixed 6 bands from the gate, trained from scratch", "Not run", "Done, seed 0" if FIXED6 else "Not run"],
                      ["Learned gate, k = 6", "Not run", ("Done, 3 seeds (2 cut short)" if any(r["epochs_run"] < r["epochs_planned"] for r in GATE) else "Done, 3 seeds") if GATE_DONE else "Running, 3 seeds"],
                      ["Learned gate, k = 3, 4, 8", "Not run", "Not run"],
                      ["RGB+NIR, random, mRMR and PCA subsets", "Subsets prepared, not trained", "Not run"],

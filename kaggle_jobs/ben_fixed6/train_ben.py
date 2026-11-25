@@ -37,7 +37,7 @@ from sklearn.metrics import average_precision_score, f1_score
 from torch.utils.data import DataLoader, IterableDataset, get_worker_info
 
 MODE = "full"  # "smoke" = small end-to-end check, "full" = whole dataset
-SEEDS = [0]  # trained one after the other, each saved to <out>/seed_<n>
+SEEDS = [1, 2]  # trained one after the other, each saved to <out>/seed_<n>
 K = 12  # bands kept by the gate; 12 = no gate (baseline B8)
 GATE = "topk_st"  # straight-through top-k
 FREEZE_AT = 0.7  # fraction of epochs after which the selected bands are frozen
@@ -236,7 +236,7 @@ def main() -> None:
     ap.add_argument("--seeds", type=int, nargs="+", default=SEEDS)
     ap.add_argument("--k", type=int, default=K)
     ap.add_argument("--bands", nargs="+", default=INPUT_BANDS or BANDS, choices=BANDS)
-    ap.add_argument("--max-hours", type=float, default=3.1, help="per seed: stop training early to leave time for testing")
+    ap.add_argument("--max-hours", type=float, default=3.7, help="per seed: stop training early to leave time for testing")
     args, _ = ap.parse_known_args()
     base = Path(args.out)
     for seed in args.seeds:

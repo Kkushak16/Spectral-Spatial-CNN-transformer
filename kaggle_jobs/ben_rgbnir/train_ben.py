@@ -37,7 +37,7 @@ from sklearn.metrics import average_precision_score, f1_score
 from torch.utils.data import DataLoader, IterableDataset, get_worker_info
 
 MODE = "full"  # "smoke" = small end-to-end check, "full" = whole dataset
-SEEDS = [0]  # trained one after the other, each saved to <out>/seed_<n>
+SEEDS = [1, 2]  # trained one after the other, each saved to <out>/seed_<n>
 K = 12  # bands kept by the gate; 12 = no gate (baseline B8)
 GATE = "topk_st"  # straight-through top-k
 FREEZE_AT = 0.7  # fraction of epochs after which the selected bands are frozen

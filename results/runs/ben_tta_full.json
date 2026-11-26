@@ -1,0 +1,1685 @@
+{
+  "ben_b8_rgb/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6476206607366927,
+        "micro_mAP": 0.8261361499197528,
+        "macro_f1": 0.5798235930349181,
+        "micro_f1": 0.7248779030692256
+      },
+      "d1": {
+        "macro_mAP": 0.646328679450885,
+        "micro_mAP": 0.8260908307646024,
+        "macro_f1": 0.5784112226123055,
+        "micro_f1": 0.7243805317012556
+      },
+      "d2": {
+        "macro_mAP": 0.6479377567999498,
+        "micro_mAP": 0.8262342477687765,
+        "macro_f1": 0.5795889666961325,
+        "micro_f1": 0.7251074814241625
+      },
+      "d3": {
+        "macro_mAP": 0.6463531531772998,
+        "micro_mAP": 0.8259934145448261,
+        "macro_f1": 0.5782077660531441,
+        "micro_f1": 0.7248989983505056
+      },
+      "d4": {
+        "macro_mAP": 0.6478407806124613,
+        "micro_mAP": 0.826166447291465,
+        "macro_f1": 0.5801838628093376,
+        "micro_f1": 0.7249001323601031
+      },
+      "d5": {
+        "macro_mAP": 0.6465874751821163,
+        "micro_mAP": 0.8263301631088692,
+        "macro_f1": 0.5784117587141779,
+        "micro_f1": 0.7253528492408101
+      },
+      "d6": {
+        "macro_mAP": 0.6470105125469893,
+        "micro_mAP": 0.8263483901542653,
+        "macro_f1": 0.5784154896606796,
+        "micro_f1": 0.7248525881296657
+      },
+      "d7": {
+        "macro_mAP": 0.6471068312509304,
+        "micro_mAP": 0.8264651969786494,
+        "macro_f1": 0.5783506595708876,
+        "micro_f1": 0.7249477533179259
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6432815697145269,
+        "micro_mAP": 0.825557384842027,
+        "macro_f1": 0.5733023356100949,
+        "micro_f1": 0.7238148309597746
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6402137429448705,
+        "micro_mAP": 0.8150941651915399,
+        "macro_f1": 0.5730825661182447,
+        "micro_f1": 0.7141360533599093
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6342431217184222,
+        "micro_mAP": 0.8087093320014326,
+        "macro_f1": 0.5660622153129983,
+        "micro_f1": 0.7094730080207483
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6527042996942064,
+      "micro_mAP": 0.829870896817515,
+      "macro_f1": 0.5805399055096812,
+      "micro_f1": 0.7274047937122216,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8,
+        "Arable land": 0.9137,
+        "Beaches, dunes, sands": 0.0997,
+        "Broad-leaved forest": 0.8161,
+        "Coastal wetlands": 0.0669,
+        "Complex cultivation patterns": 0.6538,
+        "Coniferous forest": 0.9128,
+        "Industrial or commercial units": 0.4043,
+        "Inland waters": 0.877,
+        "Inland wetlands": 0.5457,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6931,
+        "Marine waters": 0.9889,
+        "Mixed forest": 0.8713,
+        "Moors, heathland and sclerophyllous vegetation": 0.5015,
+        "Natural grassland and sparsely vegetated areas": 0.3191,
+        "Pastures": 0.8351,
+        "Permanent crops": 0.5222,
+        "Transitional woodland, shrub": 0.7436,
+        "Urban fabric": 0.8367
+      }
+    }
+  },
+  "ben_b8_rgb/seed_1": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6398447002863507,
+        "micro_mAP": 0.8228523725305362,
+        "macro_f1": 0.5540001793480224,
+        "micro_f1": 0.7146826186068571
+      },
+      "d1": {
+        "macro_mAP": 0.6411257381116022,
+        "micro_mAP": 0.8234428318706752,
+        "macro_f1": 0.5538471029186922,
+        "micro_f1": 0.7142946868858009
+      },
+      "d2": {
+        "macro_mAP": 0.6392107334824931,
+        "micro_mAP": 0.8231701871136702,
+        "macro_f1": 0.5536133561272798,
+        "micro_f1": 0.7145826573032676
+      },
+      "d3": {
+        "macro_mAP": 0.6400496499098323,
+        "micro_mAP": 0.8231118877702166,
+        "macro_f1": 0.5514531848141468,
+        "micro_f1": 0.71414649095924
+      },
+      "d4": {
+        "macro_mAP": 0.6401603697578695,
+        "micro_mAP": 0.8225214119422295,
+        "macro_f1": 0.554740151954977,
+        "micro_f1": 0.7142430832186849
+      },
+      "d5": {
+        "macro_mAP": 0.6395863876493495,
+        "micro_mAP": 0.8230840574987082,
+        "macro_f1": 0.5525037305346857,
+        "micro_f1": 0.7143568322358193
+      },
+      "d6": {
+        "macro_mAP": 0.6395583225387295,
+        "micro_mAP": 0.8232145614218526,
+        "macro_f1": 0.5517019841992173,
+        "micro_f1": 0.7147821724326755
+      },
+      "d7": {
+        "macro_mAP": 0.6409603722185893,
+        "micro_mAP": 0.8235607235962492,
+        "macro_f1": 0.5541561505869297,
+        "micro_f1": 0.7146832296615565
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6320547536871529,
+        "micro_mAP": 0.820027193495776,
+        "macro_f1": 0.5428603357524906,
+        "micro_f1": 0.7097527859929015
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6349756592064418,
+        "micro_mAP": 0.814566970613533,
+        "macro_f1": 0.5512772478904796,
+        "micro_f1": 0.7077744707223578
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6314521405622824,
+        "micro_mAP": 0.8087502822137546,
+        "macro_f1": 0.5446771391189484,
+        "micro_f1": 0.7025864700208774
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6462574708536702,
+      "micro_mAP": 0.8267572671578375,
+      "macro_f1": 0.5526731682939667,
+      "micro_f1": 0.716394964365444,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8127,
+        "Arable land": 0.9167,
+        "Beaches, dunes, sands": 0.0864,
+        "Broad-leaved forest": 0.812,
+        "Coastal wetlands": 0.1102,
+        "Complex cultivation patterns": 0.6353,
+        "Coniferous forest": 0.9072,
+        "Industrial or commercial units": 0.4311,
+        "Inland waters": 0.8671,
+        "Inland wetlands": 0.5169,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6726,
+        "Marine waters": 0.9833,
+        "Mixed forest": 0.8724,
+        "Moors, heathland and sclerophyllous vegetation": 0.4582,
+        "Natural grassland and sparsely vegetated areas": 0.2899,
+        "Pastures": 0.8286,
+        "Permanent crops": 0.4927,
+        "Transitional woodland, shrub": 0.7442,
+        "Urban fabric": 0.8415
+      }
+    }
+  },
+  "ben_b8_rgb/seed_2": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6561537875552027,
+        "micro_mAP": 0.8319751878907801,
+        "macro_f1": 0.579374523834276,
+        "micro_f1": 0.7279920781112676
+      },
+      "d1": {
+        "macro_mAP": 0.656230310489696,
+        "micro_mAP": 0.8314967944926553,
+        "macro_f1": 0.5785284911787798,
+        "micro_f1": 0.727783081630045
+      },
+      "d2": {
+        "macro_mAP": 0.6562557090348452,
+        "micro_mAP": 0.8319093483811625,
+        "macro_f1": 0.5798805621086045,
+        "micro_f1": 0.7280801917235714
+      },
+      "d3": {
+        "macro_mAP": 0.6578904545638248,
+        "micro_mAP": 0.8317398942223662,
+        "macro_f1": 0.5777052503910921,
+        "micro_f1": 0.7279534209846039
+      },
+      "d4": {
+        "macro_mAP": 0.658299691170728,
+        "micro_mAP": 0.8323425528972153,
+        "macro_f1": 0.5789326865373946,
+        "micro_f1": 0.7280812373405244
+      },
+      "d5": {
+        "macro_mAP": 0.6561227810639336,
+        "micro_mAP": 0.8313013571986815,
+        "macro_f1": 0.577420611608506,
+        "micro_f1": 0.7276828177945408
+      },
+      "d6": {
+        "macro_mAP": 0.6571617468217689,
+        "micro_mAP": 0.8317499690188481,
+        "macro_f1": 0.5798494602267626,
+        "micro_f1": 0.7284710466735019
+      },
+      "d7": {
+        "macro_mAP": 0.6563058107820516,
+        "micro_mAP": 0.8313571605026037,
+        "macro_f1": 0.5791114375964331,
+        "micro_f1": 0.7279971144742181
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.651822330378198,
+        "micro_mAP": 0.8307562893649026,
+        "macro_f1": 0.5744047925127911,
+        "micro_f1": 0.7266105935907872
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6483533610277359,
+        "micro_mAP": 0.8220136656846839,
+        "macro_f1": 0.5719194710948489,
+        "micro_f1": 0.7176565748195185
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6322582938196568,
+        "micro_mAP": 0.8048706659993902,
+        "macro_f1": 0.5472939239593227,
+        "micro_f1": 0.7008776950673872
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6626519922216487,
+      "micro_mAP": 0.835332269582101,
+      "macro_f1": 0.5800641293094301,
+      "micro_f1": 0.7304385288375792,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8053,
+        "Arable land": 0.9184,
+        "Beaches, dunes, sands": 0.0854,
+        "Broad-leaved forest": 0.8278,
+        "Coastal wetlands": 0.1191,
+        "Complex cultivation patterns": 0.6501,
+        "Coniferous forest": 0.9178,
+        "Industrial or commercial units": 0.4491,
+        "Inland waters": 0.8816,
+        "Inland wetlands": 0.5397,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6983,
+        "Marine waters": 0.9926,
+        "Mixed forest": 0.8796,
+        "Moors, heathland and sclerophyllous vegetation": 0.5199,
+        "Natural grassland and sparsely vegetated areas": 0.37,
+        "Pastures": 0.8379,
+        "Permanent crops": 0.5103,
+        "Transitional woodland, shrub": 0.7433,
+        "Urban fabric": 0.8442
+      }
+    }
+  },
+  "ben_s5_gate_k3/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6692391048368164,
+        "micro_mAP": 0.8366500373612976,
+        "macro_f1": 0.5781707816412182,
+        "micro_f1": 0.7360899156597493
+      },
+      "d1": {
+        "macro_mAP": 0.6693264262822589,
+        "micro_mAP": 0.836920415671187,
+        "macro_f1": 0.5793082019067043,
+        "micro_f1": 0.7369587541279117
+      },
+      "d2": {
+        "macro_mAP": 0.6690521733147213,
+        "micro_mAP": 0.8368119496281629,
+        "macro_f1": 0.5785947144635827,
+        "micro_f1": 0.7367496642215104
+      },
+      "d3": {
+        "macro_mAP": 0.670220753055923,
+        "micro_mAP": 0.8370796837573836,
+        "macro_f1": 0.5832756954121721,
+        "micro_f1": 0.7366431098015759
+      },
+      "d4": {
+        "macro_mAP": 0.668759598629961,
+        "micro_mAP": 0.8371421776807265,
+        "macro_f1": 0.5791807961176042,
+        "micro_f1": 0.7367352937266723
+      },
+      "d5": {
+        "macro_mAP": 0.6692853535204433,
+        "micro_mAP": 0.8366789251205958,
+        "macro_f1": 0.582673702420252,
+        "micro_f1": 0.7368955796070926
+      },
+      "d6": {
+        "macro_mAP": 0.6699968317347681,
+        "micro_mAP": 0.8368392908028365,
+        "macro_f1": 0.5815649036519773,
+        "micro_f1": 0.7365155984360945
+      },
+      "d7": {
+        "macro_mAP": 0.6686131902191376,
+        "micro_mAP": 0.8367262652454314,
+        "macro_f1": 0.5793349025916346,
+        "micro_f1": 0.7367309847322722
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6650426259165517,
+        "micro_mAP": 0.8356115725486118,
+        "macro_f1": 0.5743276193342584,
+        "micro_f1": 0.7324999440928506
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6590059701135607,
+        "micro_mAP": 0.822229955774196,
+        "macro_f1": 0.5682003044215089,
+        "micro_f1": 0.7228022743577429
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6612821345468373,
+        "micro_mAP": 0.8273621316411324,
+        "macro_f1": 0.5677467266700226,
+        "micro_f1": 0.7275477299710065
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6747879903315205,
+      "micro_mAP": 0.8395616302741332,
+      "macro_f1": 0.5805397140385733,
+      "micro_f1": 0.7383391326989538,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8251,
+        "Arable land": 0.9228,
+        "Beaches, dunes, sands": 0.1109,
+        "Broad-leaved forest": 0.8479,
+        "Coastal wetlands": 0.2687,
+        "Complex cultivation patterns": 0.6362,
+        "Coniferous forest": 0.9194,
+        "Industrial or commercial units": 0.4547,
+        "Inland waters": 0.9198,
+        "Inland wetlands": 0.5558,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6824,
+        "Marine waters": 0.993,
+        "Mixed forest": 0.8795,
+        "Moors, heathland and sclerophyllous vegetation": 0.5373,
+        "Natural grassland and sparsely vegetated areas": 0.3315,
+        "Pastures": 0.8412,
+        "Permanent crops": 0.517,
+        "Transitional woodland, shrub": 0.7451,
+        "Urban fabric": 0.8324
+      }
+    }
+  },
+  "ben_b8_rgbnir/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6758991535581625,
+        "micro_mAP": 0.8389086260874454,
+        "macro_f1": 0.6072809262280802,
+        "micro_f1": 0.7405330257748062
+      },
+      "d1": {
+        "macro_mAP": 0.6755524615061929,
+        "micro_mAP": 0.8388921125651405,
+        "macro_f1": 0.6027536993504299,
+        "micro_f1": 0.7407686990552228
+      },
+      "d2": {
+        "macro_mAP": 0.677593213995241,
+        "micro_mAP": 0.8390074062648538,
+        "macro_f1": 0.6055057849037323,
+        "micro_f1": 0.7408011340348053
+      },
+      "d3": {
+        "macro_mAP": 0.6773346486964343,
+        "micro_mAP": 0.8390780686595962,
+        "macro_f1": 0.6062260750998988,
+        "micro_f1": 0.7408131439462939
+      },
+      "d4": {
+        "macro_mAP": 0.6763697698837817,
+        "micro_mAP": 0.8390182397631737,
+        "macro_f1": 0.6056460355414803,
+        "micro_f1": 0.741005585268281
+      },
+      "d5": {
+        "macro_mAP": 0.6772826431612021,
+        "micro_mAP": 0.8391562379835646,
+        "macro_f1": 0.604982200681973,
+        "micro_f1": 0.7404621394115131
+      },
+      "d6": {
+        "macro_mAP": 0.676921322652835,
+        "micro_mAP": 0.8387048212756335,
+        "macro_f1": 0.6065304423615082,
+        "micro_f1": 0.7404778901036406
+      },
+      "d7": {
+        "macro_mAP": 0.6757919409550225,
+        "micro_mAP": 0.8390851684614318,
+        "macro_f1": 0.6039975431249411,
+        "micro_f1": 0.7410150448859085
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.662627685622397,
+        "micro_mAP": 0.8301050925974582,
+        "macro_f1": 0.5891267330477492,
+        "micro_f1": 0.7295555462340978
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6761990990483685,
+        "micro_mAP": 0.8331948550144486,
+        "macro_f1": 0.6009214165809994,
+        "micro_f1": 0.7366250456716581
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6621560213582386,
+        "micro_mAP": 0.8249042960645316,
+        "macro_f1": 0.5908249808991508,
+        "micro_f1": 0.7270069606258467
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6813418444167715,
+      "micro_mAP": 0.841564071370398,
+      "macro_f1": 0.6062648870099951,
+      "micro_f1": 0.7423580138546214,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8443,
+        "Arable land": 0.928,
+        "Beaches, dunes, sands": 0.1111,
+        "Broad-leaved forest": 0.8504,
+        "Coastal wetlands": 0.2646,
+        "Complex cultivation patterns": 0.6683,
+        "Coniferous forest": 0.93,
+        "Industrial or commercial units": 0.4597,
+        "Inland waters": 0.8581,
+        "Inland wetlands": 0.5761,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.7038,
+        "Marine waters": 0.9744,
+        "Mixed forest": 0.8827,
+        "Moors, heathland and sclerophyllous vegetation": 0.5391,
+        "Natural grassland and sparsely vegetated areas": 0.3716,
+        "Pastures": 0.8458,
+        "Permanent crops": 0.5317,
+        "Transitional woodland, shrub": 0.7573,
+        "Urban fabric": 0.8485
+      }
+    }
+  },
+  "ben_b8_rgbnir/seed_1": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6670899181006557,
+        "micro_mAP": 0.8335074407313058,
+        "macro_f1": 0.5960307143378725,
+        "micro_f1": 0.7309494325745199
+      },
+      "d1": {
+        "macro_mAP": 0.6673455490071948,
+        "micro_mAP": 0.8330634845968871,
+        "macro_f1": 0.5984269813115956,
+        "micro_f1": 0.7306141402037148
+      },
+      "d2": {
+        "macro_mAP": 0.6667548287937629,
+        "micro_mAP": 0.8334652990887618,
+        "macro_f1": 0.5975768700824415,
+        "micro_f1": 0.7309344075060362
+      },
+      "d3": {
+        "macro_mAP": 0.668276180478762,
+        "micro_mAP": 0.8327933266564476,
+        "macro_f1": 0.597655717085066,
+        "micro_f1": 0.730188761275679
+      },
+      "d4": {
+        "macro_mAP": 0.6673907959211627,
+        "micro_mAP": 0.8331076985991184,
+        "macro_f1": 0.5969907141205165,
+        "micro_f1": 0.7305350445645624
+      },
+      "d5": {
+        "macro_mAP": 0.6674236939525182,
+        "micro_mAP": 0.8333157251467218,
+        "macro_f1": 0.5990043463330741,
+        "micro_f1": 0.7310966404677466
+      },
+      "d6": {
+        "macro_mAP": 0.6678352341932599,
+        "micro_mAP": 0.8330526092527076,
+        "macro_f1": 0.5998500705421214,
+        "micro_f1": 0.7307645659234281
+      },
+      "d7": {
+        "macro_mAP": 0.6671082931571246,
+        "micro_mAP": 0.8337576360187525,
+        "macro_f1": 0.597246799227843,
+        "micro_f1": 0.7314135647476467
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6638444834438652,
+        "micro_mAP": 0.8379662128980339,
+        "macro_f1": 0.5921271763207222,
+        "micro_f1": 0.7334111946101582
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6564289223611474,
+        "micro_mAP": 0.8195163246429149,
+        "macro_f1": 0.5846802731130294,
+        "micro_f1": 0.7171473996373762
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6544475565834091,
+        "micro_mAP": 0.8183071144019735,
+        "macro_f1": 0.5767507041543374,
+        "micro_f1": 0.7141614908710913
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6730584406023572,
+      "micro_mAP": 0.8362618103139987,
+      "macro_f1": 0.5997919682437619,
+      "micro_f1": 0.7327983337784993,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8208,
+        "Arable land": 0.9178,
+        "Beaches, dunes, sands": 0.109,
+        "Broad-leaved forest": 0.8428,
+        "Coastal wetlands": 0.2307,
+        "Complex cultivation patterns": 0.6344,
+        "Coniferous forest": 0.9245,
+        "Industrial or commercial units": 0.4733,
+        "Inland waters": 0.9119,
+        "Inland wetlands": 0.5802,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6922,
+        "Marine waters": 0.988,
+        "Mixed forest": 0.8826,
+        "Moors, heathland and sclerophyllous vegetation": 0.5307,
+        "Natural grassland and sparsely vegetated areas": 0.3206,
+        "Pastures": 0.8316,
+        "Permanent crops": 0.5169,
+        "Transitional woodland, shrub": 0.7355,
+        "Urban fabric": 0.8446
+      }
+    }
+  },
+  "ben_b8_rgbnir/seed_2": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6737571114277907,
+        "micro_mAP": 0.8454294836394429,
+        "macro_f1": 0.6123806348422551,
+        "micro_f1": 0.7425155074646735
+      },
+      "d1": {
+        "macro_mAP": 0.6741588875635046,
+        "micro_mAP": 0.8451234723311237,
+        "macro_f1": 0.610020950931355,
+        "micro_f1": 0.7421352215186086
+      },
+      "d2": {
+        "macro_mAP": 0.674504577714384,
+        "micro_mAP": 0.845283440119184,
+        "macro_f1": 0.6092421771201182,
+        "micro_f1": 0.7425367611329979
+      },
+      "d3": {
+        "macro_mAP": 0.6747111887622351,
+        "micro_mAP": 0.8451397815010037,
+        "macro_f1": 0.6126123953483052,
+        "micro_f1": 0.7424569917840639
+      },
+      "d4": {
+        "macro_mAP": 0.675245764672368,
+        "micro_mAP": 0.8452940610207972,
+        "macro_f1": 0.6135157523927469,
+        "micro_f1": 0.7424206147307933
+      },
+      "d5": {
+        "macro_mAP": 0.675372759312453,
+        "micro_mAP": 0.8450991405440095,
+        "macro_f1": 0.6110637967739089,
+        "micro_f1": 0.7421221113909343
+      },
+      "d6": {
+        "macro_mAP": 0.6736588587184738,
+        "micro_mAP": 0.8453180020849802,
+        "macro_f1": 0.6096104654978687,
+        "micro_f1": 0.7427005934087638
+      },
+      "d7": {
+        "macro_mAP": 0.6728023051372589,
+        "micro_mAP": 0.8450140530757525,
+        "macro_f1": 0.6102072646542501,
+        "micro_f1": 0.7426150867396255
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6612475568163759,
+        "micro_mAP": 0.8366997675776857,
+        "macro_f1": 0.5950048305784471,
+        "micro_f1": 0.730056234804226
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6726730477793189,
+        "micro_mAP": 0.8416866975896069,
+        "macro_f1": 0.6102659509716356,
+        "micro_f1": 0.7407762723731351
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6702892598903634,
+        "micro_mAP": 0.8422313398096958,
+        "macro_f1": 0.6052440997835085,
+        "micro_f1": 0.7388790195772467
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6792055531498755,
+      "micro_mAP": 0.8483340564748381,
+      "macro_f1": 0.6132213812063282,
+      "micro_f1": 0.7446155691855495,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8166,
+        "Arable land": 0.9234,
+        "Beaches, dunes, sands": 0.0822,
+        "Broad-leaved forest": 0.8561,
+        "Coastal wetlands": 0.1923,
+        "Complex cultivation patterns": 0.6568,
+        "Coniferous forest": 0.9316,
+        "Industrial or commercial units": 0.4591,
+        "Inland waters": 0.9195,
+        "Inland wetlands": 0.5737,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.7037,
+        "Marine waters": 0.9901,
+        "Mixed forest": 0.8894,
+        "Moors, heathland and sclerophyllous vegetation": 0.5316,
+        "Natural grassland and sparsely vegetated areas": 0.3965,
+        "Pastures": 0.8415,
+        "Permanent crops": 0.5396,
+        "Transitional woodland, shrub": 0.7572,
+        "Urban fabric": 0.844
+      }
+    }
+  },
+  "ben_s5_gate_k4/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6837408134497774,
+        "micro_mAP": 0.839434877838616,
+        "macro_f1": 0.6047372019204558,
+        "micro_f1": 0.7394342445624154
+      },
+      "d1": {
+        "macro_mAP": 0.6837700980847641,
+        "micro_mAP": 0.8390264830002168,
+        "macro_f1": 0.6031381694614111,
+        "micro_f1": 0.7391586683844584
+      },
+      "d2": {
+        "macro_mAP": 0.6850214413648332,
+        "micro_mAP": 0.8393033375324637,
+        "macro_f1": 0.6038583210342506,
+        "micro_f1": 0.7393672145264502
+      },
+      "d3": {
+        "macro_mAP": 0.6841608928064316,
+        "micro_mAP": 0.8391711595486756,
+        "macro_f1": 0.6028674668994538,
+        "micro_f1": 0.739117271674928
+      },
+      "d4": {
+        "macro_mAP": 0.6850256296397271,
+        "micro_mAP": 0.8388136071054363,
+        "macro_f1": 0.6067270105794996,
+        "micro_f1": 0.738647827475801
+      },
+      "d5": {
+        "macro_mAP": 0.6837085312794201,
+        "micro_mAP": 0.8398272976800559,
+        "macro_f1": 0.6034622840156744,
+        "micro_f1": 0.7397572191529092
+      },
+      "d6": {
+        "macro_mAP": 0.685239908740929,
+        "micro_mAP": 0.8388594277297197,
+        "macro_f1": 0.6027875242228666,
+        "micro_f1": 0.7388164344493627
+      },
+      "d7": {
+        "macro_mAP": 0.6824062082606887,
+        "micro_mAP": 0.8394077651305096,
+        "macro_f1": 0.6025317294925264,
+        "micro_f1": 0.7399664434512762
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6748650102265126,
+        "micro_mAP": 0.8379539280506039,
+        "macro_f1": 0.5943226061913028,
+        "micro_f1": 0.7337036350735104
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6786294613739288,
+        "micro_mAP": 0.8292699815485142,
+        "macro_f1": 0.5981320851586759,
+        "micro_f1": 0.7304068214414433
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6714827399662779,
+        "micro_mAP": 0.8233042194287197,
+        "macro_f1": 0.5872206642237877,
+        "micro_f1": 0.722648205560765
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6898229001082552,
+      "micro_mAP": 0.8420212943406824,
+      "macro_f1": 0.605863385007661,
+      "micro_f1": 0.74124330098763,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8413,
+        "Arable land": 0.9264,
+        "Beaches, dunes, sands": 0.1069,
+        "Broad-leaved forest": 0.8518,
+        "Coastal wetlands": 0.4662,
+        "Complex cultivation patterns": 0.6575,
+        "Coniferous forest": 0.9117,
+        "Industrial or commercial units": 0.4452,
+        "Inland waters": 0.9123,
+        "Inland wetlands": 0.5559,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6885,
+        "Marine waters": 0.9948,
+        "Mixed forest": 0.8854,
+        "Moors, heathland and sclerophyllous vegetation": 0.5155,
+        "Natural grassland and sparsely vegetated areas": 0.358,
+        "Pastures": 0.8503,
+        "Permanent crops": 0.5396,
+        "Transitional woodland, shrub": 0.7559,
+        "Urban fabric": 0.8436
+      }
+    }
+  },
+  "ben_s5_gate_k6/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.667723827786785,
+        "micro_mAP": 0.8263515422526919,
+        "macro_f1": 0.5728341282613794,
+        "micro_f1": 0.726394447547909
+      },
+      "d1": {
+        "macro_mAP": 0.6673427879837736,
+        "micro_mAP": 0.8257611004829533,
+        "macro_f1": 0.5705966395344851,
+        "micro_f1": 0.7264778733793169
+      },
+      "d2": {
+        "macro_mAP": 0.6673626047043788,
+        "micro_mAP": 0.8264185755415,
+        "macro_f1": 0.5710176243457563,
+        "micro_f1": 0.7267595795094475
+      },
+      "d3": {
+        "macro_mAP": 0.6691322180465133,
+        "micro_mAP": 0.8269624490998861,
+        "macro_f1": 0.5732730760439558,
+        "micro_f1": 0.7277524174515215
+      },
+      "d4": {
+        "macro_mAP": 0.6663526492720521,
+        "micro_mAP": 0.8258748738088038,
+        "macro_f1": 0.5702843659778513,
+        "micro_f1": 0.7265813747142986
+      },
+      "d5": {
+        "macro_mAP": 0.66859781290402,
+        "micro_mAP": 0.8273183643186123,
+        "macro_f1": 0.5723509832531568,
+        "micro_f1": 0.727551462830304
+      },
+      "d6": {
+        "macro_mAP": 0.6679706814224123,
+        "micro_mAP": 0.8255097749206923,
+        "macro_f1": 0.5730882491511915,
+        "micro_f1": 0.7261134235710996
+      },
+      "d7": {
+        "macro_mAP": 0.6677330508155922,
+        "micro_mAP": 0.8265258182845154,
+        "macro_f1": 0.5724678503036071,
+        "micro_f1": 0.7266012004282801
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6573912112594276,
+        "micro_mAP": 0.8184071080699977,
+        "macro_f1": 0.5597917415053049,
+        "micro_f1": 0.7170359226705105
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6590040577630564,
+        "micro_mAP": 0.8190822732062444,
+        "macro_f1": 0.5673754916122131,
+        "micro_f1": 0.7204562791815945
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6631620044097003,
+        "micro_mAP": 0.8204745066921322,
+        "macro_f1": 0.5644801994741236,
+        "micro_f1": 0.7208942390369734
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6729310150496263,
+      "micro_mAP": 0.8289922674140123,
+      "macro_f1": 0.5737246685604327,
+      "micro_f1": 0.7284788842292955,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8238,
+        "Arable land": 0.9289,
+        "Beaches, dunes, sands": 0.0671,
+        "Broad-leaved forest": 0.851,
+        "Coastal wetlands": 0.3844,
+        "Complex cultivation patterns": 0.6509,
+        "Coniferous forest": 0.9265,
+        "Industrial or commercial units": 0.4595,
+        "Inland waters": 0.8186,
+        "Inland wetlands": 0.5545,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6808,
+        "Marine waters": 0.954,
+        "Mixed forest": 0.8875,
+        "Moors, heathland and sclerophyllous vegetation": 0.5099,
+        "Natural grassland and sparsely vegetated areas": 0.3348,
+        "Pastures": 0.8491,
+        "Permanent crops": 0.5234,
+        "Transitional woodland, shrub": 0.7407,
+        "Urban fabric": 0.8402
+      }
+    }
+  },
+  "ben_s5_gate_k6_rerun/seed_1": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6763056238645305,
+        "micro_mAP": 0.8421104511169697,
+        "macro_f1": 0.602584527694394,
+        "micro_f1": 0.7361103388579904
+      },
+      "d1": {
+        "macro_mAP": 0.6755265698831865,
+        "micro_mAP": 0.842130464147599,
+        "macro_f1": 0.6035507793137908,
+        "micro_f1": 0.736971722195392
+      },
+      "d2": {
+        "macro_mAP": 0.6732746732897779,
+        "micro_mAP": 0.8415719096850358,
+        "macro_f1": 0.6009029097809819,
+        "micro_f1": 0.7360795680556952
+      },
+      "d3": {
+        "macro_mAP": 0.6765759321186318,
+        "micro_mAP": 0.8421646795899472,
+        "macro_f1": 0.6031773396688861,
+        "micro_f1": 0.736136745564885
+      },
+      "d4": {
+        "macro_mAP": 0.6756440018531249,
+        "micro_mAP": 0.8419923593884487,
+        "macro_f1": 0.6036528267114123,
+        "micro_f1": 0.7365434245076093
+      },
+      "d5": {
+        "macro_mAP": 0.6754558473869009,
+        "micro_mAP": 0.8414928376088148,
+        "macro_f1": 0.6020678403534121,
+        "micro_f1": 0.7356696941696153
+      },
+      "d6": {
+        "macro_mAP": 0.6754315285570314,
+        "micro_mAP": 0.8421771780551166,
+        "macro_f1": 0.6058409287257218,
+        "micro_f1": 0.7369664941612594
+      },
+      "d7": {
+        "macro_mAP": 0.6781046772824858,
+        "micro_mAP": 0.8423489630545001,
+        "macro_f1": 0.6052846448887934,
+        "micro_f1": 0.7368166620876853
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.667370342319636,
+        "micro_mAP": 0.8381662194751908,
+        "macro_f1": 0.5916022515151037,
+        "micro_f1": 0.7288075772742624
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6665197520177029,
+        "micro_mAP": 0.831185249816369,
+        "macro_f1": 0.5943443220309264,
+        "micro_f1": 0.7262823054464189
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6759354183988266,
+        "micro_mAP": 0.8398639140355249,
+        "macro_f1": 0.600838131895526,
+        "micro_f1": 0.7339563357604595
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6810161978081691,
+      "micro_mAP": 0.844968704787995,
+      "macro_f1": 0.6060066402046683,
+      "micro_f1": 0.7384950894132865,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8287,
+        "Arable land": 0.9256,
+        "Beaches, dunes, sands": 0.1715,
+        "Broad-leaved forest": 0.8457,
+        "Coastal wetlands": 0.1928,
+        "Complex cultivation patterns": 0.6474,
+        "Coniferous forest": 0.9277,
+        "Industrial or commercial units": 0.4651,
+        "Inland waters": 0.9052,
+        "Inland wetlands": 0.5527,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.7018,
+        "Marine waters": 0.9893,
+        "Mixed forest": 0.8856,
+        "Moors, heathland and sclerophyllous vegetation": 0.6026,
+        "Natural grassland and sparsely vegetated areas": 0.3765,
+        "Pastures": 0.8368,
+        "Permanent crops": 0.487,
+        "Transitional woodland, shrub": 0.7625,
+        "Urban fabric": 0.8351
+      }
+    }
+  },
+  "ben_s5_gate_k6_rerun/seed_2": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6706543758784949,
+        "micro_mAP": 0.8414584721339106,
+        "macro_f1": 0.5945696115746056,
+        "micro_f1": 0.7435821110004824
+      },
+      "d1": {
+        "macro_mAP": 0.6711152634177281,
+        "micro_mAP": 0.8415765065332489,
+        "macro_f1": 0.5931528628848818,
+        "micro_f1": 0.7439279805695378
+      },
+      "d2": {
+        "macro_mAP": 0.6730453056198603,
+        "micro_mAP": 0.8414498673072986,
+        "macro_f1": 0.5957024652740781,
+        "micro_f1": 0.743930647700521
+      },
+      "d3": {
+        "macro_mAP": 0.6731806709581922,
+        "micro_mAP": 0.8418022849793647,
+        "macro_f1": 0.5982214489630746,
+        "micro_f1": 0.7442675761355292
+      },
+      "d4": {
+        "macro_mAP": 0.6715471150579688,
+        "micro_mAP": 0.8414227229340486,
+        "macro_f1": 0.5939960766684269,
+        "micro_f1": 0.7437326803806285
+      },
+      "d5": {
+        "macro_mAP": 0.6705749216325491,
+        "micro_mAP": 0.8417434175154661,
+        "macro_f1": 0.5923970492514546,
+        "micro_f1": 0.7439173311167893
+      },
+      "d6": {
+        "macro_mAP": 0.6728772539036478,
+        "micro_mAP": 0.8415126347283851,
+        "macro_f1": 0.597860674875028,
+        "micro_f1": 0.7442311580464906
+      },
+      "d7": {
+        "macro_mAP": 0.671107819423138,
+        "micro_mAP": 0.8415458617541057,
+        "macro_f1": 0.5942722539183106,
+        "micro_f1": 0.743904298811067
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6574474522744612,
+        "micro_mAP": 0.8346784410521331,
+        "macro_f1": 0.5801847993999663,
+        "micro_f1": 0.7351316919977483
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6667501973868695,
+        "micro_mAP": 0.8334082751071237,
+        "macro_f1": 0.5885371149684153,
+        "micro_f1": 0.7368045022517115
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6674673558201945,
+        "micro_mAP": 0.835953964796335,
+        "macro_f1": 0.5842666748908103,
+        "micro_f1": 0.7384788266256685
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6765904913101896,
+      "micro_mAP": 0.843712201873664,
+      "macro_f1": 0.5952284602268614,
+      "micro_f1": 0.7455582544946147,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8192,
+        "Arable land": 0.9241,
+        "Beaches, dunes, sands": 0.1063,
+        "Broad-leaved forest": 0.8548,
+        "Coastal wetlands": 0.2487,
+        "Complex cultivation patterns": 0.6206,
+        "Coniferous forest": 0.9199,
+        "Industrial or commercial units": 0.4514,
+        "Inland waters": 0.9148,
+        "Inland wetlands": 0.5789,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6953,
+        "Marine waters": 0.9929,
+        "Mixed forest": 0.8907,
+        "Moors, heathland and sclerophyllous vegetation": 0.5566,
+        "Natural grassland and sparsely vegetated areas": 0.3585,
+        "Pastures": 0.8419,
+        "Permanent crops": 0.5085,
+        "Transitional woodland, shrub": 0.7549,
+        "Urban fabric": 0.8173
+      }
+    }
+  },
+  "ben_b8_fixed6/seed_0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6721297332948379,
+        "micro_mAP": 0.8355379798502913,
+        "macro_f1": 0.5895307674327883,
+        "micro_f1": 0.7357705611634581
+      },
+      "d1": {
+        "macro_mAP": 0.6718389671787982,
+        "micro_mAP": 0.836340176171246,
+        "macro_f1": 0.5933463405455491,
+        "micro_f1": 0.7363513390054787
+      },
+      "d2": {
+        "macro_mAP": 0.6708264831265728,
+        "micro_mAP": 0.8358684710627411,
+        "macro_f1": 0.5900656618775139,
+        "micro_f1": 0.7357630006641895
+      },
+      "d3": {
+        "macro_mAP": 0.6715692734864063,
+        "micro_mAP": 0.8359016697941848,
+        "macro_f1": 0.5900370072796537,
+        "micro_f1": 0.7359070197606572
+      },
+      "d4": {
+        "macro_mAP": 0.6716676521439741,
+        "micro_mAP": 0.8356488334798773,
+        "macro_f1": 0.5921863400197357,
+        "micro_f1": 0.735964310024251
+      },
+      "d5": {
+        "macro_mAP": 0.67100339242544,
+        "micro_mAP": 0.8362726884781511,
+        "macro_f1": 0.5891026452555165,
+        "micro_f1": 0.7363185398587226
+      },
+      "d6": {
+        "macro_mAP": 0.6718773462382953,
+        "micro_mAP": 0.8361612642625471,
+        "macro_f1": 0.5929868539021854,
+        "micro_f1": 0.7362649345444043
+      },
+      "d7": {
+        "macro_mAP": 0.6714684725547306,
+        "micro_mAP": 0.8360649934396199,
+        "macro_f1": 0.5906336306893026,
+        "micro_f1": 0.736264092550291
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6632443512015961,
+        "micro_mAP": 0.834911803022014,
+        "macro_f1": 0.5818639951989684,
+        "micro_f1": 0.7312827675342137
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6666928547345862,
+        "micro_mAP": 0.823739090788188,
+        "macro_f1": 0.5858141252751686,
+        "micro_f1": 0.7273313459202827
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6693273207310079,
+        "micro_mAP": 0.8296028616920372,
+        "macro_f1": 0.5852509824159355,
+        "micro_f1": 0.7298305998771161
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6770116690863799,
+      "micro_mAP": 0.8384829958462914,
+      "macro_f1": 0.5904721796886564,
+      "micro_f1": 0.7377566860859762,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.833,
+        "Arable land": 0.929,
+        "Beaches, dunes, sands": 0.1123,
+        "Broad-leaved forest": 0.84,
+        "Coastal wetlands": 0.2786,
+        "Complex cultivation patterns": 0.6471,
+        "Coniferous forest": 0.9209,
+        "Industrial or commercial units": 0.4709,
+        "Inland waters": 0.9039,
+        "Inland wetlands": 0.5652,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6813,
+        "Marine waters": 0.9836,
+        "Mixed forest": 0.8835,
+        "Moors, heathland and sclerophyllous vegetation": 0.5496,
+        "Natural grassland and sparsely vegetated areas": 0.3516,
+        "Pastures": 0.8466,
+        "Permanent crops": 0.5093,
+        "Transitional woodland, shrub": 0.7198,
+        "Urban fabric": 0.8369
+      }
+    }
+  },
+  "ben_b8_fixed6/seed_1": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.671992131709315,
+        "micro_mAP": 0.8334405661295047,
+        "macro_f1": 0.6004310736841233,
+        "micro_f1": 0.7333860500789264
+      },
+      "d1": {
+        "macro_mAP": 0.6726805418335996,
+        "micro_mAP": 0.832857450133213,
+        "macro_f1": 0.6034959063643336,
+        "micro_f1": 0.7326721479500229
+      },
+      "d2": {
+        "macro_mAP": 0.6709789553128662,
+        "micro_mAP": 0.8331626896902045,
+        "macro_f1": 0.5994582386330315,
+        "micro_f1": 0.7329484133945003
+      },
+      "d3": {
+        "macro_mAP": 0.6717540996783353,
+        "micro_mAP": 0.8334591992795659,
+        "macro_f1": 0.599230229717099,
+        "micro_f1": 0.7333340271139371
+      },
+      "d4": {
+        "macro_mAP": 0.6713436052466115,
+        "micro_mAP": 0.8334645347718636,
+        "macro_f1": 0.6018140832790488,
+        "micro_f1": 0.7334287644448677
+      },
+      "d5": {
+        "macro_mAP": 0.6713135685582506,
+        "micro_mAP": 0.833491152779831,
+        "macro_f1": 0.6022557158863996,
+        "micro_f1": 0.7336174739021988
+      },
+      "d6": {
+        "macro_mAP": 0.6718343085440878,
+        "micro_mAP": 0.8329124763983173,
+        "macro_f1": 0.6008179912975034,
+        "micro_f1": 0.7330718052279845
+      },
+      "d7": {
+        "macro_mAP": 0.6716103443107816,
+        "micro_mAP": 0.8330722210329186,
+        "macro_f1": 0.5975076510801637,
+        "micro_f1": 0.7328133691478002
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6676922684877705,
+        "micro_mAP": 0.836699467076798,
+        "macro_f1": 0.591869057790228,
+        "micro_f1": 0.7353718867916096
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6583453632319337,
+        "micro_mAP": 0.8163017287023377,
+        "macro_f1": 0.5887138333590723,
+        "micro_f1": 0.7149751761462115
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6732969021471482,
+        "micro_mAP": 0.8290180526756277,
+        "macro_f1": 0.6024433185823621,
+        "micro_f1": 0.7293851993255539
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6769648347037988,
+      "micro_mAP": 0.8356837660257632,
+      "macro_f1": 0.6017590467251498,
+      "micro_f1": 0.7346571069070008,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8151,
+        "Arable land": 0.9259,
+        "Beaches, dunes, sands": 0.1664,
+        "Broad-leaved forest": 0.8436,
+        "Coastal wetlands": 0.3715,
+        "Complex cultivation patterns": 0.6377,
+        "Coniferous forest": 0.9256,
+        "Industrial or commercial units": 0.4683,
+        "Inland waters": 0.8974,
+        "Inland wetlands": 0.6028,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.681,
+        "Marine waters": 0.987,
+        "Mixed forest": 0.8788,
+        "Moors, heathland and sclerophyllous vegetation": 0.5048,
+        "Natural grassland and sparsely vegetated areas": 0.2921,
+        "Pastures": 0.8396,
+        "Permanent crops": 0.4711,
+        "Transitional woodland, shrub": 0.7222,
+        "Urban fabric": 0.8315
+      }
+    }
+  },
+  "ben_b8_fixed6/seed_2": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6875640003883378,
+        "micro_mAP": 0.8428822739120998,
+        "macro_f1": 0.6104343169644633,
+        "micro_f1": 0.7470214386129335
+      },
+      "d1": {
+        "macro_mAP": 0.6859346367440589,
+        "micro_mAP": 0.8431523362548893,
+        "macro_f1": 0.6073039785987511,
+        "micro_f1": 0.7474926694159102
+      },
+      "d2": {
+        "macro_mAP": 0.6861587415791225,
+        "micro_mAP": 0.843462118645682,
+        "macro_f1": 0.6088509746300472,
+        "micro_f1": 0.7475716653088567
+      },
+      "d3": {
+        "macro_mAP": 0.6881352317080371,
+        "micro_mAP": 0.8434257281478462,
+        "macro_f1": 0.6104734217027116,
+        "micro_f1": 0.7474064453402407
+      },
+      "d4": {
+        "macro_mAP": 0.686402084726793,
+        "micro_mAP": 0.842697613626255,
+        "macro_f1": 0.6073436093609255,
+        "micro_f1": 0.7463881161955068
+      },
+      "d5": {
+        "macro_mAP": 0.6873853723638277,
+        "micro_mAP": 0.8436491085241057,
+        "macro_f1": 0.610270367624514,
+        "micro_f1": 0.7479727860892369
+      },
+      "d6": {
+        "macro_mAP": 0.6873279841452655,
+        "micro_mAP": 0.8435237085588188,
+        "macro_f1": 0.6076468540296479,
+        "micro_f1": 0.7476686940589017
+      },
+      "d7": {
+        "macro_mAP": 0.6862827943272717,
+        "micro_mAP": 0.8433072438190664,
+        "macro_f1": 0.6081025526002795,
+        "micro_f1": 0.7477277317713593
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6833560517183759,
+        "micro_mAP": 0.8477136078186857,
+        "macro_f1": 0.6046114691921505,
+        "micro_f1": 0.7496303982854607
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6761767275046733,
+        "micro_mAP": 0.8262551598129871,
+        "macro_f1": 0.599803123643883,
+        "micro_f1": 0.7314294461731397
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6833557583020059,
+        "micro_mAP": 0.8330372181534526,
+        "macro_f1": 0.6006741180270082,
+        "micro_f1": 0.7369368681380007
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6918030963090747,
+      "micro_mAP": 0.8456788995981783,
+      "macro_f1": 0.6082277623728458,
+      "micro_f1": 0.7489908638908886,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8358,
+        "Arable land": 0.9243,
+        "Beaches, dunes, sands": 0.1504,
+        "Broad-leaved forest": 0.8606,
+        "Coastal wetlands": 0.3654,
+        "Complex cultivation patterns": 0.6461,
+        "Coniferous forest": 0.933,
+        "Industrial or commercial units": 0.4545,
+        "Inland waters": 0.9044,
+        "Inland wetlands": 0.5748,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6967,
+        "Marine waters": 0.9825,
+        "Mixed forest": 0.8862,
+        "Moors, heathland and sclerophyllous vegetation": 0.6051,
+        "Natural grassland and sparsely vegetated areas": 0.3602,
+        "Pastures": 0.8538,
+        "Permanent crops": 0.5415,
+        "Transitional woodland, shrub": 0.7336,
+        "Urban fabric": 0.8351
+      }
+    }
+  },
+  "ben_b8_cnntr_12band_s0": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6925350517191255,
+        "micro_mAP": 0.8432335096369056,
+        "macro_f1": 0.618946966280931,
+        "micro_f1": 0.7441347097849047
+      },
+      "d1": {
+        "macro_mAP": 0.6923203541943601,
+        "micro_mAP": 0.8430928741012089,
+        "macro_f1": 0.6148372735679289,
+        "micro_f1": 0.7439976075238021
+      },
+      "d2": {
+        "macro_mAP": 0.692093688081644,
+        "micro_mAP": 0.8437045240688719,
+        "macro_f1": 0.6164291198096222,
+        "micro_f1": 0.7446651534038002
+      },
+      "d3": {
+        "macro_mAP": 0.6929961129150981,
+        "micro_mAP": 0.843343750737014,
+        "macro_f1": 0.6176132193258104,
+        "micro_f1": 0.7444654839271079
+      },
+      "d4": {
+        "macro_mAP": 0.6909685413941817,
+        "micro_mAP": 0.8436054442045017,
+        "macro_f1": 0.6182212156869682,
+        "micro_f1": 0.7443753960203119
+      },
+      "d5": {
+        "macro_mAP": 0.6913868691391195,
+        "micro_mAP": 0.8436300676358909,
+        "macro_f1": 0.6163381939212131,
+        "micro_f1": 0.7445969630513508
+      },
+      "d6": {
+        "macro_mAP": 0.6939258963324115,
+        "micro_mAP": 0.8434736408158716,
+        "macro_f1": 0.6178062064797132,
+        "micro_f1": 0.7445208148066633
+      },
+      "d7": {
+        "macro_mAP": 0.692543516840094,
+        "micro_mAP": 0.8427927582058404,
+        "macro_f1": 0.6172790999750974,
+        "micro_f1": 0.7438921814265149
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6693145047518095,
+        "micro_mAP": 0.8260270082311144,
+        "macro_f1": 0.5932408711265182,
+        "micro_f1": 0.7245990687262962
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6979449776486494,
+        "micro_mAP": 0.8437997276679584,
+        "macro_f1": 0.6222385962961107,
+        "micro_f1": 0.7456420855305856
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6883680027812084,
+        "micro_mAP": 0.8397289306624072,
+        "macro_f1": 0.6134763389324641,
+        "micro_f1": 0.7407002236970206
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6962675164557656,
+      "micro_mAP": 0.8453196070376182,
+      "macro_f1": 0.6178644975613372,
+      "micro_f1": 0.7457665000335253,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8427,
+        "Arable land": 0.933,
+        "Beaches, dunes, sands": 0.1984,
+        "Broad-leaved forest": 0.86,
+        "Coastal wetlands": 0.387,
+        "Complex cultivation patterns": 0.6607,
+        "Coniferous forest": 0.9364,
+        "Industrial or commercial units": 0.4558,
+        "Inland waters": 0.8496,
+        "Inland wetlands": 0.6136,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.7076,
+        "Marine waters": 0.9728,
+        "Mixed forest": 0.9023,
+        "Moors, heathland and sclerophyllous vegetation": 0.5568,
+        "Natural grassland and sparsely vegetated areas": 0.3306,
+        "Pastures": 0.8565,
+        "Permanent crops": 0.5619,
+        "Transitional woodland, shrub": 0.7618,
+        "Urban fabric": 0.8418
+      }
+    }
+  },
+  "ben_b8_cnntr_12band_s1_s2/seed_1": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6708550002253385,
+        "micro_mAP": 0.8408026110344488,
+        "macro_f1": 0.6058516418050862,
+        "micro_f1": 0.7381301363933526
+      },
+      "d1": {
+        "macro_mAP": 0.6705727732299982,
+        "micro_mAP": 0.8410621543900813,
+        "macro_f1": 0.6067878723574098,
+        "micro_f1": 0.7384229503056905
+      },
+      "d2": {
+        "macro_mAP": 0.672189835198649,
+        "micro_mAP": 0.8408644804731854,
+        "macro_f1": 0.6066066604304513,
+        "micro_f1": 0.738329975374972
+      },
+      "d3": {
+        "macro_mAP": 0.6711742046163103,
+        "micro_mAP": 0.8409720185430851,
+        "macro_f1": 0.6068163592020278,
+        "micro_f1": 0.738147407385295
+      },
+      "d4": {
+        "macro_mAP": 0.6711159212346661,
+        "micro_mAP": 0.8408847153635501,
+        "macro_f1": 0.606731852513439,
+        "micro_f1": 0.7385453031227939
+      },
+      "d5": {
+        "macro_mAP": 0.6712829926124133,
+        "micro_mAP": 0.8408509181180477,
+        "macro_f1": 0.605871920612535,
+        "micro_f1": 0.73849690618539
+      },
+      "d6": {
+        "macro_mAP": 0.6729117582722962,
+        "micro_mAP": 0.8411217599307199,
+        "macro_f1": 0.6075176016062747,
+        "micro_f1": 0.7391309539089761
+      },
+      "d7": {
+        "macro_mAP": 0.670071895858862,
+        "micro_mAP": 0.841021783829814,
+        "macro_f1": 0.6054856961637629,
+        "micro_f1": 0.7380830772079797
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.6655787302856443,
+        "micro_mAP": 0.8426353142308528,
+        "macro_f1": 0.5947404163087568,
+        "micro_f1": 0.736448255335013
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6606454318602729,
+        "micro_mAP": 0.8252083085489534,
+        "macro_f1": 0.5976005059739206,
+        "micro_f1": 0.722953273500009
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6705741398178783,
+        "micro_mAP": 0.8386955724195695,
+        "macro_f1": 0.6043815649941923,
+        "micro_f1": 0.7362632444254806
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6751002550255553,
+      "micro_mAP": 0.8431027354288777,
+      "macro_f1": 0.6072154546625631,
+      "micro_f1": 0.7398430375962329,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8067,
+        "Arable land": 0.9267,
+        "Beaches, dunes, sands": 0.0668,
+        "Broad-leaved forest": 0.8534,
+        "Coastal wetlands": 0.297,
+        "Complex cultivation patterns": 0.6411,
+        "Coniferous forest": 0.9337,
+        "Industrial or commercial units": 0.469,
+        "Inland waters": 0.9096,
+        "Inland wetlands": 0.5751,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6925,
+        "Marine waters": 0.9781,
+        "Mixed forest": 0.8898,
+        "Moors, heathland and sclerophyllous vegetation": 0.5223,
+        "Natural grassland and sparsely vegetated areas": 0.318,
+        "Pastures": 0.8478,
+        "Permanent crops": 0.5199,
+        "Transitional woodland, shrub": 0.7415,
+        "Urban fabric": 0.838
+      }
+    }
+  },
+  "ben_b8_cnntr_12band_s1_s2/seed_2": {
+    "per_variant": {
+      "d0": {
+        "macro_mAP": 0.6912949351032288,
+        "micro_mAP": 0.8537174576519319,
+        "macro_f1": 0.6328796033366381,
+        "micro_f1": 0.7549086480615708
+      },
+      "d1": {
+        "macro_mAP": 0.6919743045091734,
+        "micro_mAP": 0.854400258805308,
+        "macro_f1": 0.6324863497523502,
+        "micro_f1": 0.7558043530451993
+      },
+      "d2": {
+        "macro_mAP": 0.6885288288932557,
+        "micro_mAP": 0.8539497020782568,
+        "macro_f1": 0.6304793310606831,
+        "micro_f1": 0.7552543186883018
+      },
+      "d3": {
+        "macro_mAP": 0.6931792729868196,
+        "micro_mAP": 0.8542050384999522,
+        "macro_f1": 0.6316575699123624,
+        "micro_f1": 0.7558478312722334
+      },
+      "d4": {
+        "macro_mAP": 0.6911490470130742,
+        "micro_mAP": 0.8540639848791927,
+        "macro_f1": 0.6332841010632565,
+        "micro_f1": 0.7557111884395737
+      },
+      "d5": {
+        "macro_mAP": 0.6893913236743706,
+        "micro_mAP": 0.8537192707841482,
+        "macro_f1": 0.6312799113317582,
+        "micro_f1": 0.7553644552446356
+      },
+      "d6": {
+        "macro_mAP": 0.6917717364642693,
+        "micro_mAP": 0.8545040808881111,
+        "macro_f1": 0.6310246216876687,
+        "micro_f1": 0.755891270500919
+      },
+      "d7": {
+        "macro_mAP": 0.6922612402715003,
+        "micro_mAP": 0.8540258255437033,
+        "macro_f1": 0.6315398622379924,
+        "micro_f1": 0.7552453489750838
+      },
+      "gain_0.9": {
+        "macro_mAP": 0.679149187651507,
+        "micro_mAP": 0.8492463316070201,
+        "macro_f1": 0.6178098165734722,
+        "micro_f1": 0.7480110281980435
+      },
+      "gain_1.1": {
+        "macro_mAP": 0.6880041093217758,
+        "micro_mAP": 0.845991031186248,
+        "macro_f1": 0.6304755839416348,
+        "micro_f1": 0.7488301396254406
+      },
+      "noise_0.03": {
+        "macro_mAP": 0.6913984869000803,
+        "micro_mAP": 0.8525001452997271,
+        "macro_f1": 0.6325608297286807,
+        "micro_f1": 0.7542134769897035
+      }
+    },
+    "tta": {
+      "macro_mAP": 0.6955211230356658,
+      "micro_mAP": 0.8563094252927979,
+      "macro_f1": 0.6339125841716172,
+      "micro_f1": 0.7572370600808662,
+      "classes_scored": 19,
+      "n": 119825,
+      "per_class_AP": {
+        "Agro-forestry areas": 0.8153,
+        "Arable land": 0.9333,
+        "Beaches, dunes, sands": 0.1285,
+        "Broad-leaved forest": 0.8577,
+        "Coastal wetlands": 0.2525,
+        "Complex cultivation patterns": 0.6495,
+        "Coniferous forest": 0.9355,
+        "Industrial or commercial units": 0.443,
+        "Inland waters": 0.9224,
+        "Inland wetlands": 0.6008,
+        "Land principally occupied by agriculture, with significant areas of natural vegetation": 0.6982,
+        "Marine waters": 0.9944,
+        "Mixed forest": 0.8999,
+        "Moors, heathland and sclerophyllous vegetation": 0.62,
+        "Natural grassland and sparsely vegetated areas": 0.4187,
+        "Pastures": 0.8597,
+        "Permanent crops": 0.5749,
+        "Transitional woodland, shrub": 0.7624,
+        "Urban fabric": 0.8482
+      }
+    }
+  }
+}

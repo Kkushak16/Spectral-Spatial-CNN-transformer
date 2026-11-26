@@ -25,7 +25,9 @@ MODELS = {
     "12 bands": ["ben_b8_cnntr_12band_s0", "ben_b8_cnntr_12band_s1_s2/seed_1", "ben_b8_cnntr_12band_s1_s2/seed_2"],
     "Learned 6 bands (gate)": ["ben_s5_gate_k6/seed_0", "ben_s5_gate_k6_rerun/seed_1", "ben_s5_gate_k6_rerun/seed_2"],
     "Fixed 6 bands": ["ben_b8_fixed6/seed_0", "ben_b8_fixed6/seed_1", "ben_b8_fixed6/seed_2"],
-    "RGB+NIR (4 bands)": ["ben_b8_rgbnir/seed_0"],
+    "RGB+NIR (4 bands)": [f"ben_b8_rgbnir/seed_{s}" for s in range(3)],
+    "Learned 3 bands (gate)": ["ben_s5_gate_k3/seed_0"],
+    "Learned 4 bands (gate)": ["ben_s5_gate_k4/seed_0"],
 }
 
 

@@ -116,6 +116,7 @@ with open(RUNS / "ben_postprocess.csv", newline="", encoding="utf-8") as fh:  # 
 GATE = [load(RUNS / p / "metrics.json") for p in ("ben_s5_gate_k6/seed_0", "ben_s5_gate_k6_rerun/seed_1", "ben_s5_gate_k6_rerun/seed_2")]
 FIXED6 = [load(RUNS / f"ben_b8_fixed6/seed_{s}/metrics.json") for s in range(3)]  # seed 0's gate bands, trained from scratch
 RGBNIR = [load(p) for p in sorted((RUNS / "ben_b8_rgbnir").glob("seed_*/metrics.json"))]
+GK3, GK4 = (load(RUNS / f"ben_s5_gate_k{k}/seed_0/metrics.json") for k in (3, 4))  # one seed each so far
 GATE_DONE = len(GATE) == 3 and all(r["epochs_run"] == r["epochs_planned"] for r in GATE)
 gain = 100 * (EU["b3"]["acc"] - EU["rgb"]["acc"])
 
@@ -224,8 +225,8 @@ def page_one():
             *bullets([f"<b>EuroSAT:</b> {pct(EU['b3']['acc'])} with 12 bands vs {pct(EU['rgb']['acc'])} with RGB, same CNN (one seed).",
                       f"<b>BigEarthNet:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))} with 12 bands vs {ms(metric(BEN_RGB, 'test', 'macro_mAP'))} with RGB, same model (three seeds).",
                       f"<b>Seed ensemble:</b> averaging the three 12-band models raised macro mAP to {POST[('12 bands', '3-seed ensemble')]['test_macro_mAP']:.3f}.",
-                      f"<b>Band selection:</b> 6 learned bands scored {ms(metric(GATE, 'test', 'macro_mAP'))}, between RGB and 12 bands. "
-                      f"A plain RGB+NIR model (4 bands, one seed) scored {RGBNIR[0]['test']['macro_mAP']:.3f}, about the same."]),
+                      f"<b>Band selection:</b> 6 learned bands scored {ms(metric(GATE, 'test', 'macro_mAP'))} and RGB+NIR {ms(metric(RGBNIR, 'test', 'macro_mAP'))}. "
+                      f"The gate's 4 bands scored {GK4['test']['macro_mAP']:.3f}, close to 12 bands (one seed so far)."]),
             P("How we approached it", "h2"),
             *bullets(["<b>Understand the data first:</b> checked real files, proved the EuroSAT band order and tested for spatial leakage.",
                       "<b>Write hypotheses first:</b> seven hypotheses, each with the experiment that could reject it.",
@@ -253,11 +254,11 @@ def page_one():
                        "Adding Sentinel-1 radar, which is paired with BigEarthNet patches."]),
              P("Future models and tools", "h2"),
              P("<b>MobileNetV3</b> and <b>EfficientNet-B0</b> as lighter encoders, <b>ResNet-50</b> as the RGB reference, "
-               "<b>Integrated Gradients</b> and <b>SHAP</b> for explanations, and <b>mRMR/PCA</b> band subsets for comparison. None of these results exist yet."),
+               "<b>Integrated Gradients</b> and <b>SHAP</b> for explanations, and <b>mRMR/PCA</b> band subsets for comparison. The jobs and subsets are ready; none has been trained yet."),
              P("Future plans", "h2"),
-             *bullets(["Run RGB+NIR seeds 1 and 2, then k = 3, 4 and 8 on BigEarthNet.",
+             *bullets(["Repeat k = 3 and 4 with two more seeds, and run k = 8 on BigEarthNet.",
                        "Compare the gate against random, mRMR and PCA subsets of the same size.",
-                       "Add the physics head, then the consistency loss, one at a time.",
+                       "Run the physics head (built) against its control, then add the consistency loss.",
                        "Complete EuroSAT seeds, low-data and geographic tests, then write the paper."]),
              ]
     head = [P("AgriSpec-XAI: Learning Which Satellite Bands Matter", "title"),
@@ -366,11 +367,14 @@ def page_gate():
     keys = (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1"))
     one = lambda runs, k: ms(metric(runs, "test", k)) if len(runs) > 1 else f"{runs[0]['test'][k]:.3f}"
     rows = [["Input", "Bands", "Seeds", *[label for _, label in keys]]]
-    for name, n, runs in (("RGB", 3, BEN_RGB), ("RGB+NIR (B04, B03, B02, B08)", 4, RGBNIR), ("Learned gate, k = 6", 6, GATE),
+    for name, n, runs in (("RGB", 3, BEN_RGB), (f"Learned gate, k = 3 ({', '.join(GK3['selected_bands'])})", 3, [GK3]),
+                          ("RGB+NIR (B02, B03, B04, B08)", 4, RGBNIR), (f"Learned gate, k = 4 ({', '.join(GK4['selected_bands'])})", 4, [GK4]),
+                          ("Learned gate, k = 6", 6, GATE),
                           ("Gate's seed-0 bands, trained from scratch", 6, FIXED6), ("All 12 bands", 12, BEN)):
         rows.append([name, n, len(runs), *[f"<b>{one(runs, k)}</b>" if k == "macro_mAP" else one(runs, k) for k, _ in keys]])
     mean = lambda runs: st.mean(metric(runs, "test", "macro_mAP"))
-    rgb, full, gate, fixed, nir = mean(BEN_RGB), mean(BEN), mean(GATE), mean(FIXED6), RGBNIR[0]["test"]["macro_mAP"]
+    rgb, full, gate, fixed, nir = mean(BEN_RGB), mean(BEN), mean(GATE), mean(FIXED6), mean(RGBNIR)
+    k3, k4 = GK3["test"]["macro_mAP"], GK4["test"]["macro_mAP"]
     seed_rows = [["Seed", "Bands the gate chose", "Gate", "Seed-0 bands, from scratch", "RGB", "12 bands"]]
     for i, r in enumerate(GATE):
         seed_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"<b>{r['test']['macro_mAP']:.3f}</b>", f"{FIXED6[i]['test']['macro_mAP']:.3f}",
@@ -379,41 +383,41 @@ def page_gate():
     jac = st.mean(len(sets[a] & sets[b]) / len(sets[a] | sets[b]) for a, b in ((0, 1), (0, 2), (1, 2)))
     common = sorted(set.intersection(*sets))
     probs = [p for r in GATE for p in r["gate_probabilities"].values()]
-    story = [P("Results 4: Learned band selection (k = 6) and project status", "h1"),
+    story = [P("Results 4: Learned band selection and project status", "h1"),
             P(f"All three k = 6 seeds now ran the full 20 epochs. The learned 6-band model scored test macro mAP <b>{ms(metric(GATE, 'test', 'macro_mAP'))}</b>: "
               f"{gate - rgb:+.3f} above RGB and {full - gate:.3f} below all 12 bands, so it recovered <b>{(gate - rgb) / (full - rgb):.0%}</b> of the gap. "
-              f"The 4-band RGB+NIR model scored {nir:.3f}, about the same as both 6-band models, but this is one seed.", "body"),
+              f"RGB+NIR scored {ms(metric(RGBNIR, 'test', 'macro_mAP'))} over three seeds. The first k = 4 gate scored <b>{k4:.3f}</b>, "
+              f"above every RGB+NIR seed and {full - k4:.3f} below 12 bands; k = 3 scored {k3:.3f}, {k3 - rgb:+.3f} above RGB. Both are one seed so far.", "body"),
             table(rows, [62, 13, 13, 23, 23, 23, 23]),
-            P("Test split, mean ± std over seeds (RGB+NIR: seed 0 only). Same model, data split and training settings; only the input bands differ. "
-              "Gate scores come from the exported 6-channel model, which matched the gated model exactly.", "note"),
-            Spacer(1, 5), table(seed_rows, [12, 62, 22, 38, 22, 24]),
+            P("Test split, mean ± std over seeds; a single value means one seed. Only the input bands differ between rows. "
+              "Gate scores come from the exported k-channel model, which matched the gated model exactly.", "note"),
+            table(seed_rows, [12, 62, 22, 38, 22, 24]),
             P(f"Test macro mAP by seed. Band stability across seeds: average Jaccard overlap {jac:.2f}; chosen by all three seeds: {', '.join(common) if common else 'none'}. "
               f"The gate's band scores stayed between {min(probs):.2f} and {max(probs):.2f}, and several were nearly tied, so which six bands it kept was close to arbitrary.", "note"),
             P("What this tells us", "h3"),
             *bullets([f"<b>Six bands keep most of the benefit of 12.</b> Both the learned gate ({gate:.3f}) and the fixed set trained from scratch ({fixed:.3f}) sit well above RGB ({rgb:.3f}).",
                       "<b>The exact six bands matter less than expected.</b> Different seeds chose different sets and scored within about 0.01 of each other.",
-                      "<b>The gate has not yet beaten a simple hand-picked set.</b> Adding one near-infrared band to RGB gave about the same score with four bands. "
-                      "Two more RGB+NIR seeds, and smaller k, are needed to settle this."], "li")]
+                      f"<b>At k = 4 the gate may beat a hand-picked set.</b> It dropped green and blue and kept red, near-infrared and both shortwave-infrared bands, "
+                      f"scoring {k4 - nir:+.3f} above RGB+NIR. At k = 6 it did not beat the fixed set. Seeds 1 and 2 of k = 3 and 4 will settle this."], "li")]
     story += [P("Where each experiment stands", "h3"),
               table([["Experiment", "EuroSAT", "BigEarthNet"],
-                     ["RGB baseline, compact CNN", "Done, seed 0", "Not run"],
-                     ["12 bands, compact CNN", "Done, seed 0", "Not run"],
+                     ["RGB and 12 bands, compact CNN", "Done, seed 0", "Not run"],
                      ["RGB baseline, CNN-Transformer", "Not run", "Done, 3 seeds"],
                      ["12 bands, CNN-Transformer (B8)", "Done, seed 0", "Done, 3 seeds"],
                      ["Fixed 6 bands from the gate, trained from scratch", "Not run", f"Done, {len(FIXED6)} seeds"],
                      ["Learned gate, k = 6", "Not run", "Done, 3 seeds" if GATE_DONE else "Done, some seeds cut short"],
-                     ["RGB+NIR (4 bands)", "Subset prepared, not trained", f"Done, seed {', '.join(str(r['seed']) for r in RGBNIR)}"],
-                     ["Learned gate, k = 3, 4, 8", "Not run", "Not run"],
-                     ["Random, mRMR and PCA subsets", "Subsets prepared, not trained", "Not run"],
-                     ["ResNet-50 RGB reference", "Script ready, not run", "Not run"],
-                     ["MobileNetV3, EfficientNet-B0 encoders", "Not run", "Not run"],
-                     ["Physics head, consistency loss", "Not run", "Not run"],
-                     ["Explanations and deletion tests", "Not run", "Not run"]], [84, 48, 48]),
+                     ["RGB+NIR (4 bands)", "Subset prepared, not trained", f"Done, {len(RGBNIR)} seeds"],
+                     ["Learned gate, k = 3 and 4", "Not run", "Done, seed 0"],
+                     ["Learned gate, k = 8", "Not run", "Job ready, not run"],
+                     ["Random, mRMR and PCA subsets", "Subsets prepared, not trained", "Subsets computed, jobs ready"],
+                     ["MobileNetV3, EfficientNet-B0, ResNet-50 (RGB)", "ResNet-50 script ready", "Jobs ready, not run"],
+                     ["Physics head and its control", "Not run", "Built and tested, jobs ready"],
+                     ["Consistency loss, explanations, deletion tests", "Not run", "Not run"]], [84, 48, 48]),
               P("Limits of the current results", "h3"),
               *bullets(["EuroSAT neural-network results use one seed, so they are early evidence rather than final claims.",
                         "We have not yet benchmarked these scores against published results under matching conditions.",
-                        "EuroSAT and BigEarthNet use different labels and metrics, so their scores cannot be compared directly.",
-                        "The physics-guided and explainability parts are designed but not yet built into a trained model."], "li"),
+                        "EuroSAT and BigEarthNet differ in labels and metrics, so their scores are not comparable.",
+                        "The physics head is built but not yet trained; the explanation tests are designed but not built."], "li"),
               P("All measured values come from saved run files in <font name='Bold'>results/</font>. Training code is in <font name='Bold'>src/</font> and <font name='Bold'>kaggle_jobs/</font>.", "note")]
     return story
 

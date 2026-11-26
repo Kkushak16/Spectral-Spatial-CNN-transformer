@@ -19,6 +19,7 @@ SUMMARIES = {
     # seed 0 of the first k = 6 run was complete; seeds 1 and 2 are the full-length reruns
     "ben_s5_gate_k6_summary_3seeds.csv": ["ben_s5_gate_k6/seed_0", "ben_s5_gate_k6_rerun/seed_1", "ben_s5_gate_k6_rerun/seed_2"],
     "ben_b8_fixed6_summary_3seeds.csv": [f"ben_b8_fixed6/seed_{s}" for s in range(3)],
+    "ben_b8_rgbnir_summary_3seeds.csv": [f"ben_b8_rgbnir/seed_{s}" for s in range(3)],
 }
 
 

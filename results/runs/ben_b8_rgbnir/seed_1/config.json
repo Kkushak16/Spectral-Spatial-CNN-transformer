@@ -1,0 +1,58 @@
+{
+  "mode": "full",
+  "data": "/kaggle/input",
+  "support": "/kaggle/input",
+  "out": "/kaggle/working/seed_1",
+  "epochs": 20,
+  "batch_size": 256,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "workers": 4,
+  "seeds": [
+    1,
+    2
+  ],
+  "k": 12,
+  "bands": [
+    "B04",
+    "B03",
+    "B02",
+    "B08"
+  ],
+  "max_hours": 3.7,
+  "seed": 1,
+  "model": {
+    "name": "cnn_transformer",
+    "embed_dim": 128,
+    "heads": 4,
+    "depth": 2,
+    "token_stage": 2,
+    "img_size": 120
+  },
+  "classes": [
+    "Agro-forestry areas",
+    "Arable land",
+    "Beaches, dunes, sands",
+    "Broad-leaved forest",
+    "Coastal wetlands",
+    "Complex cultivation patterns",
+    "Coniferous forest",
+    "Industrial or commercial units",
+    "Inland waters",
+    "Inland wetlands",
+    "Land principally occupied by agriculture, with significant areas of natural vegetation",
+    "Marine waters",
+    "Mixed forest",
+    "Moors, heathland and sclerophyllous vegetation",
+    "Natural grassland and sparsely vegetated areas",
+    "Pastures",
+    "Permanent crops",
+    "Transitional woodland, shrub",
+    "Urban fabric"
+  ],
+  "params": 1610342,
+  "n_train": 237871,
+  "n_val": 122342,
+  "n_test": 119825,
+  "gpu": "Tesla T4"
+}

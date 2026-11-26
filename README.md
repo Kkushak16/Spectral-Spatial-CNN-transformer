@@ -154,21 +154,23 @@ kaggle kernels push -p kaggle_jobs/ben_fixed6 --accelerator NvidiaTeslaT4
 kaggle kernels push -p kaggle_jobs/ben_rgbnir --accelerator NvidiaTeslaT4
 ```
 
-CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ± std of 3 seeds):
+CNN-Transformer on the official test split (119,825 patches, 19 classes, mean ± std of 3 seeds; a single value means one seed):
 
 | Input | Bands | Macro mAP | Micro mAP | Macro F1 | Micro F1 |
 |---|---|---|---|---|---|
 | RGB (B04, B03, B02) | 3 | 0.648 ± 0.008 | 0.827 ± 0.005 | 0.571 ± 0.015 | 0.722 ± 0.007 |
-| RGB+NIR (adds B08), seed 0 only | 4 | 0.676 | 0.839 | 0.607 | 0.741 |
+| Learned gate, k = 3 (chose B04, B08, B12) | 3 | 0.669 | 0.837 | 0.578 | 0.736 |
+| RGB+NIR (adds B08) | 4 | 0.672 ± 0.005 | 0.839 ± 0.006 | 0.605 ± 0.008 | 0.738 ± 0.006 |
+| Learned gate, k = 4 (chose B04, B8A, B11, B12) | 4 | 0.684 | 0.840 | 0.605 | 0.739 |
 | Learned gate, k = 6 | 6 | 0.672 ± 0.004 | 0.837 ± 0.009 | 0.590 ± 0.015 | 0.735 ± 0.009 |
 | Gate's seed-0 bands (B01, B04, B05, B8A, B11, B12), trained from scratch | 6 | 0.677 ± 0.009 | 0.837 ± 0.005 | 0.600 ± 0.010 | 0.739 ± 0.007 |
 | All 12 bands | 12 | 0.685 ± 0.012 | 0.846 ± 0.007 | 0.619 ± 0.014 | 0.746 ± 0.009 |
 
-The learned 6-band models recover about two thirds of the gap between RGB and 12 bands. Each seed of the gate chose a different set; only B04 and B11 were chosen every time, and scores stayed within about 0.01. A plain RGB+NIR model scored about the same with 4 bands, but that is one seed so far. Seed 0 of the gate comes from `ben_s5_gate_k6/`; seeds 1 and 2 come from `ben_s5_gate_k6_rerun/`, because the first attempts hit the Kaggle time limit.
+The learned 6-band models recover about two thirds of the gap between RGB and 12 bands. Each seed of the gate chose a different set; only B04 and B11 were chosen every time, and scores stayed within about 0.01. A plain RGB+NIR model scored about the same with 4 bands. The first k = 4 gate dropped blue and green, kept red, near-infrared and both shortwave-infrared bands, and scored above every RGB+NIR seed and close to 12 bands; k = 3 and 4 have one seed each so far. Seed 0 of the gate comes from `ben_s5_gate_k6/`; seeds 1 and 2 come from `ben_s5_gate_k6_rerun/`, because the first attempts hit the Kaggle time limit.
 
-Averaging the three seeds' predictions (`scripts/ben_postprocess.py`) raises test macro mAP to 0.710 for 12 bands, 0.700 for the fixed 6 bands and 0.669 for RGB.
+Averaging the three seeds' predictions (`scripts/ben_postprocess.py`) raises test macro mAP to 0.710 for 12 bands, 0.700 for the fixed 6 bands, 0.693 for RGB+NIR and 0.669 for RGB.
 
-Per-seed and per-class scores are in `results/runs/ben_*_summary_3seeds.csv` (rebuild the 6-band ones with `scripts/ben_summary.py`). The seed-by-seed comparison is in `results/runs/ben_b8_rgb_vs_12band.csv`.
+Per-seed and per-class scores are in `results/runs/ben_*_summary_3seeds.csv` (rebuild the 4- and 6-band ones with `scripts/ben_summary.py`). The seed-by-seed comparison is in `results/runs/ben_b8_rgb_vs_12band.csv`.
 
 ## Notes
 

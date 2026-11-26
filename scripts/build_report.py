@@ -112,9 +112,11 @@ BEN = [load(RUNS / "ben_b8_cnntr_12band_s0/metrics.json"),
 BEN_RGB = [load(RUNS / f"ben_b8_rgb/seed_{s}/metrics.json") for s in range(3)]
 with open(RUNS / "ben_postprocess.csv", newline="", encoding="utf-8") as fh:  # from scripts/ben_postprocess.py
     POST = {(r["model"], r["variant"]): {k: float(v) for k, v in r.items() if k.startswith("test_")} for r in csv.DictReader(fh)}
-GATE = [load(p) for p in sorted((RUNS / "ben_s5_gate_k6").glob("seed_*/metrics.json"))]
-FIXED6 = load(RUNS / "ben_b8_fixed6/seed_0/metrics.json") if (RUNS / "ben_b8_fixed6/seed_0/metrics.json").exists() else None
-GATE_DONE = len(GATE) == 3
+# k = 6 gate: seed 0 of the first run was complete; seeds 1 and 2 are the full-length reruns
+GATE = [load(RUNS / p / "metrics.json") for p in ("ben_s5_gate_k6/seed_0", "ben_s5_gate_k6_rerun/seed_1", "ben_s5_gate_k6_rerun/seed_2")]
+FIXED6 = [load(RUNS / f"ben_b8_fixed6/seed_{s}/metrics.json") for s in range(3)]  # seed 0's gate bands, trained from scratch
+RGBNIR = [load(p) for p in sorted((RUNS / "ben_b8_rgbnir").glob("seed_*/metrics.json"))]
+GATE_DONE = len(GATE) == 3 and all(r["epochs_run"] == r["epochs_planned"] for r in GATE)
 gain = 100 * (EU["b3"]["acc"] - EU["rgb"]["acc"])
 
 
@@ -221,7 +223,9 @@ def page_one():
             P("Results so far", "h2"),
             *bullets([f"<b>EuroSAT:</b> {pct(EU['b3']['acc'])} with 12 bands vs {pct(EU['rgb']['acc'])} with RGB, same CNN (one seed).",
                       f"<b>BigEarthNet:</b> macro mAP {ms(metric(BEN, 'test', 'macro_mAP'))} with 12 bands vs {ms(metric(BEN_RGB, 'test', 'macro_mAP'))} with RGB, same model (three seeds).",
-                      f"<b>Seed ensemble:</b> averaging the three 12-band models raised macro mAP to {POST[('12 bands', '3-seed ensemble')]['test_macro_mAP']:.3f}."]),
+                      f"<b>Seed ensemble:</b> averaging the three 12-band models raised macro mAP to {POST[('12 bands', '3-seed ensemble')]['test_macro_mAP']:.3f}.",
+                      f"<b>Band selection:</b> 6 learned bands scored {ms(metric(GATE, 'test', 'macro_mAP'))}, between RGB and 12 bands. "
+                      f"A plain RGB+NIR model (4 bands, one seed) scored {RGBNIR[0]['test']['macro_mAP']:.3f}, about the same."]),
             P("How we approached it", "h2"),
             *bullets(["<b>Understand the data first:</b> checked real files, proved the EuroSAT band order and tested for spatial leakage.",
                       "<b>Write hypotheses first:</b> seven hypotheses, each with the experiment that could reject it.",
@@ -251,13 +255,13 @@ def page_one():
              P("<b>MobileNetV3</b> and <b>EfficientNet-B0</b> as lighter encoders, <b>ResNet-50</b> as the RGB reference, "
                "<b>Integrated Gradients</b> and <b>SHAP</b> for explanations, and <b>mRMR/PCA</b> band subsets for comparison. None of these results exist yet."),
              P("Future plans", "h2"),
-             *bullets(["Rerun the two k = 6 seeds that were cut short, then run k = 3, 4 and 8 on BigEarthNet.",
-                       "Compare the gate against RGB, RGB+NIR, random, mRMR and PCA subsets.",
+             *bullets(["Run RGB+NIR seeds 1 and 2, then k = 3, 4 and 8 on BigEarthNet.",
+                       "Compare the gate against random, mRMR and PCA subsets of the same size.",
                        "Add the physics head, then the consistency loss, one at a time.",
                        "Complete EuroSAT seeds, low-data and geographic tests, then write the paper."]),
              ]
     head = [P("AgriSpec-XAI: Learning Which Satellite Bands Matter", "title"),
-            P("Physics-guided sparse band selection in a compact CNN-Transformer &nbsp;|&nbsp; " + (AUTHOR + " &nbsp;|&nbsp; " if AUTHOR else "") + "19 Nov 2026", "sub")]
+            P("Physics-guided sparse band selection in a compact CNN-Transformer &nbsp;|&nbsp; " + (AUTHOR + " &nbsp;|&nbsp; " if AUTHOR else "") + "26 Nov 2026", "sub")]
     return head + [FrameBreak()] + left + [FrameBreak()] + right
 
 
@@ -311,12 +315,13 @@ def page_ben(fig):
 
 def page_ensemble():
     rows = [["Input bands", "Single model (mean of 3)", "3-seed ensemble", "Macro F1 at 0.5", "Macro F1, tuned", "Micro F1 at 0.5", "Micro F1, tuned"]]
-    for name, runs, key in (("RGB (3 bands)", BEN_RGB, "RGB (3 bands)"), ("All 12 bands", BEN, "12 bands")):
+    for name, runs, key in (("RGB (3 bands)", BEN_RGB, "RGB (3 bands)"), ("Fixed 6 bands", FIXED6, "Fixed 6 bands"), ("All 12 bands", BEN, "12 bands")):
         e = POST[(key, "3-seed ensemble")]
         rows.append([name, f"{st.mean(metric(runs, 'test', 'macro_mAP')):.3f}", f"<b>{e['test_macro_mAP']:.3f}</b>", f"{e['test_macro_f1']:.3f}",
                      f"<b>{e['test_macro_f1_tuned']:.3f}</b>", f"{e['test_micro_f1']:.3f}", f"<b>{e['test_micro_f1_tuned']:.3f}</b>"])
     e12, er = POST[("12 bands", "3-seed ensemble")], POST[("RGB (3 bands)", "3-seed ensemble")]
-    g = POST[("Learned 6 bands (2 seeds cut short)", "3-seed ensemble")]
+    g, f6 = POST[("Learned 6 bands (gate)", "3-seed ensemble")], POST[("Fixed 6 bands", "3-seed ensemble")]
+    union = sorted(set().union(*(r["selected_bands"] for r in GATE)))
     return [P("Free gains from the saved predictions: seed ensemble and tuned thresholds", "h3"),
             table(rows, [28, 30, 24, 24, 24, 25, 25]),
             P("Test macro mAP except where marked. Ensemble = average of the three seeds' predicted probabilities. Tuned = one decision threshold per class, "
@@ -324,7 +329,9 @@ def page_ensemble():
             *bullets([f"<b>Averaging the three seeds added {e12['test_macro_mAP'] - st.mean(metric(BEN, 'test', 'macro_mAP')):+.3f} macro mAP</b> for 12 bands "
                       f"and {er['test_macro_mAP'] - st.mean(metric(BEN_RGB, 'test', 'macro_mAP')):+.3f} for RGB, so 12 bands keep their lead.",
                       f"<b>Tuned thresholds added {e12['test_macro_f1_tuned'] - e12['test_macro_f1']:+.3f} macro F1</b> on the 12-band ensemble. mAP does not depend on thresholds.",
-                      f"<b>Not a 6-band result:</b> the three k = 6 models together read 9 different bands, so their ensemble ({g['test_macro_mAP']:.3f}) is not reported as k = 6.",
+                      f"<b>A true 6-band ensemble:</b> the three fixed 6-band models read the same bands, and together scored {f6['test_macro_mAP']:.3f}, "
+                      f"{e12['test_macro_mAP'] - f6['test_macro_mAP']:.3f} below the 12-band ensemble. The three learned-gate models read {len(union)} different bands, "
+                      f"so their ensemble ({g['test_macro_mAP']:.3f}) is not a 6-band result.",
                       "<b>Cost:</b> an ensemble runs three models, so it triples inference time."], "li")]
 
 
@@ -356,62 +363,48 @@ def page_ben_rgb(fig):
 
 
 def page_gate():
-    story = [P("Results 4: Learned band selection (k = 6) and project status", "h1")]
-    base = {k: metric(BEN, "test", k) for k in ("macro_mAP", "micro_mAP", "macro_f1", "micro_f1")}
-    if GATE_DONE:
-        rows = [["Test metric", "RGB (3 bands)", "Learned 6 bands (S5)", "12 bands (B8)", "6 bands minus 12"]]
-        for k, label in (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1")):
-            g = metric(GATE, "test", k)
-            rows.append([label, ms(metric(BEN_RGB, "test", k)), f"<b>{ms(g)}</b>", ms(base[k]), f"{st.mean(g) - st.mean(base[k]):+.3f}"])
-        sets = [set(r["selected_bands"]) for r in GATE]
-        pairs = [(0, 1), (0, 2), (1, 2)]
-        jac = st.mean(len(sets[a] & sets[b]) / len(sets[a] | sets[b]) for a, b in pairs)
-        common = sorted(set.intersection(*sets))
-        band_rows = [["Seed", "Selected bands", "Epochs run", "Test macro mAP", "RGB, same seed", "12 bands, same seed"]]
-        for i, r in enumerate(GATE):
-            band_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"{r['epochs_run']} of {r['epochs_planned']}", f"<b>{r['test']['macro_mAP']:.3f}</b>",
-                              f"{BEN_RGB[i]['test']['macro_mAP']:.3f}", f"{BEN[i]['test']['macro_mAP']:.3f}"])
-        short = [r for r in GATE if r["epochs_run"] < r["epochs_planned"]]
-        story += [P(f"The learned 6-band model reads half of the input bands. Averaged over three seeds, its test macro mAP was "
-                    f"<b>{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(base['macro_mAP']):+.3f}</b> against all 12 bands and "
-                    f"{st.mean(metric(GATE, 'test', 'macro_mAP')) - st.mean(metric(BEN_RGB, 'test', 'macro_mAP')):+.3f} against RGB.", "body")]
-        if short:
-            story += [P(f"<b>Caution: {len(short)} of 3 seeds did not finish training.</b> Seeds {', '.join(str(r['seed']) for r in short)} hit the "
-                        "Kaggle time budget after epoch 15 of 20, so they had one epoch of fine-tuning with frozen bands instead of six, and their "
-                        "learning rate never decayed. Only seed 0 is a complete run. These seeds must be rerun before k = 6 can be judged.", "body")]
-        story += [table(rows, [32, 36, 42, 36, 34]), Spacer(1, 7), table(band_rows, [12, 62, 24, 28, 27, 27]),
-                  P(f"Band stability across seeds: average Jaccard overlap {jac:.2f}. Bands chosen by all three seeds: {', '.join(common) if common else 'none'}. "
-                    "The gate's band scores stayed close together (about 0.3 to 0.6), so the choice of the last bands was weak. "
-                    "Final scores come from the exported 6-channel model, which matched the gated model exactly.", "note")]
-        if FIXED6:
-            f, g0 = FIXED6, GATE[0]
-            fr = [["Seed 0, test", "RGB (3 bands)", "Gate, 6 bands", "Same 6 bands, trained from scratch", "12 bands"]]
-            for k, label in (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1")):
-                fr.append([label, f"{BEN_RGB[0]['test'][k]:.3f}", f"{g0['test'][k]:.3f}", f"<b>{f['test'][k]:.3f}</b>", f"{BEN[0]['test'][k]:.3f}"])
-            gap12 = BEN[0]["test"]["macro_mAP"] - f["test"]["macro_mAP"]
-            gaprgb = f["test"]["macro_mAP"] - BEN_RGB[0]["test"]["macro_mAP"]
-            story += [P("Check: the chosen 6 bands trained from scratch", "h3"),
-                      P(f"We trained the plain model on only {', '.join(f['bands'] if 'bands' in f else g0['selected_bands'])}, the bands the gate chose in seed 0, for the full 20 epochs. "
-                        f"It recovered <b>{gaprgb / (gaprgb + gap12):.0%}</b> of the gap between RGB and 12 bands: test macro mAP {f['test']['macro_mAP']:.3f}, "
-                        f"{gaprgb:+.3f} above RGB and {gap12:.3f} below 12 bands. This is one seed, and seed-to-seed spread is about 0.01, so it needs repeating.", "body"),
-                      table(fr, [30, 30, 30, 56, 34])]
-    else:
-        story += [P("<b>Training is in progress, so no k = 6 result is reported yet.</b> This page will be regenerated with measured scores when all three seeds finish.", "body"),
-                  table([["Item", "Setup"],
-                         ["Model", "S5: the B8 CNN-Transformer with a straight-through top-k band gate, keeping 6 of 12 bands"],
-                         ["Training", "3 seeds, 20 epochs each. The gate learns for 14 epochs, then the bands are frozen for 6 epochs of fine-tuning"],
-                         ["Final model", "Exported with a genuine 6-channel first layer, and checked against the gated model"],
-                         ["Comparison", f"12-band baseline: test macro mAP {ms(base['macro_mAP'])}, micro mAP {ms(base['micro_mAP'])}"]], [32, 148])]
+    keys = (("macro_mAP", "Macro mAP"), ("micro_mAP", "Micro mAP"), ("macro_f1", "Macro F1"), ("micro_f1", "Micro F1"))
+    one = lambda runs, k: ms(metric(runs, "test", k)) if len(runs) > 1 else f"{runs[0]['test'][k]:.3f}"
+    rows = [["Input", "Bands", "Seeds", *[label for _, label in keys]]]
+    for name, n, runs in (("RGB", 3, BEN_RGB), ("RGB+NIR (B04, B03, B02, B08)", 4, RGBNIR), ("Learned gate, k = 6", 6, GATE),
+                          ("Gate's seed-0 bands, trained from scratch", 6, FIXED6), ("All 12 bands", 12, BEN)):
+        rows.append([name, n, len(runs), *[f"<b>{one(runs, k)}</b>" if k == "macro_mAP" else one(runs, k) for k, _ in keys]])
+    mean = lambda runs: st.mean(metric(runs, "test", "macro_mAP"))
+    rgb, full, gate, fixed, nir = mean(BEN_RGB), mean(BEN), mean(GATE), mean(FIXED6), RGBNIR[0]["test"]["macro_mAP"]
+    seed_rows = [["Seed", "Bands the gate chose", "Gate", "Seed-0 bands, from scratch", "RGB", "12 bands"]]
+    for i, r in enumerate(GATE):
+        seed_rows.append([r["seed"], ", ".join(r["selected_bands"]), f"<b>{r['test']['macro_mAP']:.3f}</b>", f"{FIXED6[i]['test']['macro_mAP']:.3f}",
+                          f"{BEN_RGB[i]['test']['macro_mAP']:.3f}", f"{BEN[i]['test']['macro_mAP']:.3f}"])
+    sets = [set(r["selected_bands"]) for r in GATE]
+    jac = st.mean(len(sets[a] & sets[b]) / len(sets[a] | sets[b]) for a, b in ((0, 1), (0, 2), (1, 2)))
+    common = sorted(set.intersection(*sets))
+    probs = [p for r in GATE for p in r["gate_probabilities"].values()]
+    story = [P("Results 4: Learned band selection (k = 6) and project status", "h1"),
+            P(f"All three k = 6 seeds now ran the full 20 epochs. The learned 6-band model scored test macro mAP <b>{ms(metric(GATE, 'test', 'macro_mAP'))}</b>: "
+              f"{gate - rgb:+.3f} above RGB and {full - gate:.3f} below all 12 bands, so it recovered <b>{(gate - rgb) / (full - rgb):.0%}</b> of the gap. "
+              f"The 4-band RGB+NIR model scored {nir:.3f}, about the same as both 6-band models, but this is one seed.", "body"),
+            table(rows, [62, 13, 13, 23, 23, 23, 23]),
+            P("Test split, mean ± std over seeds (RGB+NIR: seed 0 only). Same model, data split and training settings; only the input bands differ. "
+              "Gate scores come from the exported 6-channel model, which matched the gated model exactly.", "note"),
+            Spacer(1, 5), table(seed_rows, [12, 62, 22, 38, 22, 24]),
+            P(f"Test macro mAP by seed. Band stability across seeds: average Jaccard overlap {jac:.2f}; chosen by all three seeds: {', '.join(common) if common else 'none'}. "
+              f"The gate's band scores stayed between {min(probs):.2f} and {max(probs):.2f}, and several were nearly tied, so which six bands it kept was close to arbitrary.", "note"),
+            P("What this tells us", "h3"),
+            *bullets([f"<b>Six bands keep most of the benefit of 12.</b> Both the learned gate ({gate:.3f}) and the fixed set trained from scratch ({fixed:.3f}) sit well above RGB ({rgb:.3f}).",
+                      "<b>The exact six bands matter less than expected.</b> Different seeds chose different sets and scored within about 0.01 of each other.",
+                      "<b>The gate has not yet beaten a simple hand-picked set.</b> Adding one near-infrared band to RGB gave about the same score with four bands. "
+                      "Two more RGB+NIR seeds, and smaller k, are needed to settle this."], "li")]
     story += [P("Where each experiment stands", "h3"),
               table([["Experiment", "EuroSAT", "BigEarthNet"],
                      ["RGB baseline, compact CNN", "Done, seed 0", "Not run"],
                      ["12 bands, compact CNN", "Done, seed 0", "Not run"],
                      ["RGB baseline, CNN-Transformer", "Not run", "Done, 3 seeds"],
                      ["12 bands, CNN-Transformer (B8)", "Done, seed 0", "Done, 3 seeds"],
-                     ["Fixed 6 bands from the gate, trained from scratch", "Not run", "Done, seed 0" if FIXED6 else "Not run"],
-                     ["Learned gate, k = 6", "Not run", ("Done, 3 seeds (2 cut short)" if any(r["epochs_run"] < r["epochs_planned"] for r in GATE) else "Done, 3 seeds") if GATE_DONE else "Running, 3 seeds"],
+                     ["Fixed 6 bands from the gate, trained from scratch", "Not run", f"Done, {len(FIXED6)} seeds"],
+                     ["Learned gate, k = 6", "Not run", "Done, 3 seeds" if GATE_DONE else "Done, some seeds cut short"],
+                     ["RGB+NIR (4 bands)", "Subset prepared, not trained", f"Done, seed {', '.join(str(r['seed']) for r in RGBNIR)}"],
                      ["Learned gate, k = 3, 4, 8", "Not run", "Not run"],
-                     ["RGB+NIR, random, mRMR and PCA subsets", "Subsets prepared, not trained", "Not run"],
+                     ["Random, mRMR and PCA subsets", "Subsets prepared, not trained", "Not run"],
                      ["ResNet-50 RGB reference", "Script ready, not run", "Not run"],
                      ["MobileNetV3, EfficientNet-B0 encoders", "Not run", "Not run"],
                      ["Physics head, consistency loss", "Not run", "Not run"],

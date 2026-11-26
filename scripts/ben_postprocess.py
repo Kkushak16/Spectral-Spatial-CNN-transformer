@@ -23,7 +23,9 @@ GRID = np.round(np.arange(0.05, 0.951, 0.01), 2)
 MODELS = {
     "RGB (3 bands)": ["ben_b8_rgb/seed_0", "ben_b8_rgb/seed_1", "ben_b8_rgb/seed_2"],
     "12 bands": ["ben_b8_cnntr_12band_s0", "ben_b8_cnntr_12band_s1_s2/seed_1", "ben_b8_cnntr_12band_s1_s2/seed_2"],
-    "Learned 6 bands (2 seeds cut short)": ["ben_s5_gate_k6/seed_0", "ben_s5_gate_k6/seed_1", "ben_s5_gate_k6/seed_2"],
+    "Learned 6 bands (gate)": ["ben_s5_gate_k6/seed_0", "ben_s5_gate_k6_rerun/seed_1", "ben_s5_gate_k6_rerun/seed_2"],
+    "Fixed 6 bands": ["ben_b8_fixed6/seed_0", "ben_b8_fixed6/seed_1", "ben_b8_fixed6/seed_2"],
+    "RGB+NIR (4 bands)": ["ben_b8_rgbnir/seed_0"],
 }
 
 
@@ -64,7 +66,8 @@ def main() -> None:
             assert all(np.array_equal(split[0][0], s[0]) and np.array_equal(split[0][1], s[1]) for s in split)
         yv, yt = val[0][1], test[0][1]
         variants = [(f"seed {i}", v[2], t[2]) for i, (v, t) in enumerate(zip(val, test))]
-        variants.append(("3-seed ensemble", np.mean([v[2] for v in val], 0), np.mean([t[2] for t in test], 0)))
+        if len(runs) > 1:
+            variants.append(("3-seed ensemble", np.mean([v[2] for v in val], 0), np.mean([t[2] for t in test], 0)))
         for name, pv, pt in variants:
             thr = best_thresholds(yv, pv)
             base, tuned = scores(yt, pt), scores(yt, pt, thr)
